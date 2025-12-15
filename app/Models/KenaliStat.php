@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class KenaliStat extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'order',
+        'icon',
+        'number',
+        'label',
+        'active',
+    ];
+
+    protected $casts = [
+        'active' => 'boolean',
+        'order' => 'integer',
+    ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true)->orderBy('order');
+    }
+}
