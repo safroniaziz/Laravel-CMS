@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             MediaSeeder::class, // Sample media images
             TagSeeder::class, // Tags for posts
             PostSeeder::class, // UNIB blog posts with rich content
+            PageSeeder::class, // Static pages
             SliderSeeder::class,
             KenaliSettingSeeder::class,
             KenaliInfoSeeder::class, // Kenali Lebih Dekat info items
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             AlumniStatSeeder::class, // Ikatan Alumni stats
             AlumniTestimonialSeeder::class, // Ikatan Alumni testimonials
             TeacherSeeder::class,
+            TeacherSettingSeeder::class, // Teacher page settings
             MenuSeeder::class, // Dynamic menu system
             InfoCardSettingSeeder::class, // Info Card settings
             CTASettingSeeder::class, // CTA section settings

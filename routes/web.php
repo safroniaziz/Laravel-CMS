@@ -33,6 +33,8 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\BackupController;
+use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\TeacherSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +81,12 @@ Route::prefix('careers')->name('careers.')->group(function () {
     Route::post('/{career}/apply', [CareerFrontendController::class, 'apply'])->name('apply');
 });
 
+// Teachers/Faculty
+Route::prefix('profil/dosen')->name('teachers.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\TeacherController::class, 'index'])->name('index');
+    Route::get('/{id}', [\App\Http\Controllers\TeacherController::class, 'show'])->name('show');
+});
+
 // Contact & FAQ
 Route::prefix('contact')->name('contact.')->group(function () {
     Route::get('/', [ContactFrontendController::class, 'index'])->name('index');
@@ -121,9 +129,9 @@ Route::middleware(['auth'])->group(function () {
     // Pages
     Route::resource('pages', PageController::class);
 
-    // Media
-    Route::resource('media', MediaController::class)->except(['create', 'edit', 'show']);
+    // Media - picker must be before resource to avoid being caught by {id}
     Route::get('/media/picker', [MediaController::class, 'picker'])->name('media.picker');
+    Route::resource('media', MediaController::class)->except(['create', 'edit', 'show']);
 
 
     // Categories
@@ -191,6 +199,37 @@ Route::middleware(['auth'])->group(function () {
     Route::post('backup/create', [BackupController::class, 'create'])->name('backup.create');
     Route::get('backup/{backup}/download', [BackupController::class, 'download'])->name('backup.download');
     Route::delete('backup/{backup}', [BackupController::class, 'destroy'])->name('backup.destroy');
+
+
+    // Teachers
+    Route::resource('teachers', TeacherController::class)->names('admin.teachers');
+    Route::patch('teachers/{teacher}/toggle', [TeacherController::class, 'toggle'])->name('admin.teachers.toggle');
+    Route::post('teachers/reorder', [TeacherController::class, 'reorder'])->name('admin.teachers.reorder');
+    
+    // Teacher Settings
+    Route::get('teacher-settings', [TeacherSettingController::class, 'index'])->name('admin.teacher-settings.index');
+    Route::post('teacher-settings', [TeacherSettingController::class, 'update'])->name('admin.teacher-settings.update');
+
+    // Home Settings
+    Route::prefix('home-settings')->name('home-settings.')->group(function () {
+        Route::get('/hero', [\App\Http\Controllers\Admin\HomeSettingController::class, 'hero'])->name('hero');
+        Route::get('/kenali', [\App\Http\Controllers\Admin\HomeSettingController::class, 'kenali'])->name('kenali');
+        Route::get('/alumni', [\App\Http\Controllers\Admin\HomeSettingController::class, 'alumni'])->name('alumni');
+        Route::get('/cta', [\App\Http\Controllers\Admin\HomeSettingController::class, 'cta'])->name('cta');
+        Route::get('/category', [\App\Http\Controllers\Admin\HomeSettingController::class, 'category'])->name('category');
+        Route::get('/news', [\App\Http\Controllers\Admin\HomeSettingController::class, 'news'])->name('news');
+        Route::get('/general', [\App\Http\Controllers\Admin\HomeSettingController::class, 'general'])->name('general');
+        Route::get('/info-card', [\App\Http\Controllers\Admin\HomeSettingController::class, 'infoCard'])->name('info-card');
+        Route::get('/footer', [\App\Http\Controllers\Admin\HomeSettingController::class, 'footer'])->name('footer');
+        Route::get('/homepage-builder', [\App\Http\Controllers\Admin\HomeSettingController::class, 'homepageBuilder'])->name('homepage-builder');
+        Route::post('/homepage-builder', [\App\Http\Controllers\Admin\HomeSettingController::class, 'updateHomepageBuilder'])->name('homepage-builder.update');
+        Route::post('/update', [\App\Http\Controllers\Admin\HomeSettingController::class, 'update'])->name('update');
+    });
+
+    // Sliders (Hero)
+    Route::resource('sliders', \App\Http\Controllers\Admin\SliderController::class)->names('admin.sliders');
+    Route::patch('sliders/{slider}/toggle', [\App\Http\Controllers\Admin\SliderController::class, 'toggle'])->name('admin.sliders.toggle');
+    Route::post('sliders/reorder', [\App\Http\Controllers\Admin\SliderController::class, 'reorder'])->name('admin.sliders.reorder');
 });
 
 /*

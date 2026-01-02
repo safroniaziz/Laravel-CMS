@@ -207,24 +207,174 @@ class PostSeeder extends Seeder
                 $featuredImageUrl = $post['featured_image'];
             }
             
-            $createdPost = Post::create([
-                'title' => $post['title'],
-                'slug' => $post['slug'],
-                'excerpt' => $post['excerpt'],
-                'content' => $post['content'],
-                'featured_image' => $featuredImageUrl,
-                'status' => $post['status'],
-                'published_at' => $post['published_at'],
-                'category_id' => $category->id,
-                'author_id' => $author->id,
-                'views' => rand(50, 500), // Add random views for testing
-            ]);
+            $createdPost = Post::updateOrCreate(
+                ['slug' => $post['slug']],
+                [
+                    'title' => $post['title'],
+                    'excerpt' => $post['excerpt'],
+                    'content' => $post['content'],
+                    'featured_image' => $featuredImageUrl,
+                    'status' => $post['status'],
+                    'published_at' => $post['published_at'],
+                    'category_id' => $category->id,
+                    'author_id' => $author->id,
+                    'views' => rand(50, 500), // Add random views for testing
+                ]
+            );
             
             // Attach random tags (2-4 tags per post)
             if ($allTags->isNotEmpty()) {
                 $randomTags = $allTags->random(min(rand(2, 4), $allTags->count()));
-                $createdPost->tags()->attach($randomTags->pluck('id'));
+                $createdPost->tags()->sync($randomTags->pluck('id'));
             }
         }
+
+        // ===== POSTS FOR OTHER CATEGORIES =====
+        
+        // Prestasi Category
+        $prestasiCategory = Category::firstOrCreate(['slug' => 'prestasi'], ['name' => 'Prestasi']);
+        $prestasiPosts = [
+            [
+                'title' => 'Mahasiswa SI UNIB Raih Juara 1 Hackathon Nasional 2025',
+                'slug' => 'mahasiswa-si-unib-juara-hackathon-2025',
+                'excerpt' => 'Tim mahasiswa Sistem Informasi UNIB berhasil meraih juara pertama dalam kompetisi Hackathon Nasional 2025 yang diselenggarakan di Jakarta.',
+                'content' => '<p>Tim mahasiswa Sistem Informasi UNIB yang terdiri dari 4 orang berhasil meraih juara pertama dalam kompetisi Hackathon Nasional 2025. Mereka mengembangkan aplikasi smart campus yang inovatif.</p><p>Kompetisi ini diikuti oleh lebih dari 100 tim dari berbagai universitas di Indonesia. Tim SI UNIB berhasil unggul dengan solusi yang kreatif dan implementasi yang baik.</p>',
+            ],
+            [
+                'title' => 'Dosen SI UNIB Raih Best Paper Award di Konferensi Internasional',
+                'slug' => 'dosen-si-unib-best-paper-award-2025',
+                'excerpt' => 'Dr. Ahmad Rifai, dosen Program Studi Sistem Informasi, meraih penghargaan Best Paper Award di konferensi internasional IEEE.',
+                'content' => '<p>Dr. Ahmad Rifai berhasil meraih Best Paper Award untuk penelitiannya tentang implementasi AI dalam sistem informasi manajemen. Penghargaan ini diberikan dalam konferensi IEEE yang diselenggarakan di Singapura.</p>',
+            ],
+        ];
+
+        foreach ($prestasiPosts as $post) {
+            $img = $useMedia && $mediaImages->count() > 0 ? asset('storage/media/large/' . $mediaImages->random()->file_name) : 'https://picsum.photos/seed/prestasi/800/500';
+            Post::updateOrCreate(
+                ['slug' => $post['slug']],
+                [
+                    'title' => $post['title'],
+                    'excerpt' => $post['excerpt'],
+                    'content' => $post['content'],
+                    'featured_image' => $img,
+                    'status' => 'published',
+                    'published_at' => now()->subDays(rand(1, 30)),
+                    'category_id' => $prestasiCategory->id,
+                    'author_id' => $author->id,
+                    'views' => rand(50, 300),
+                ]
+            );
+        }
+
+        // Akademik Category
+        $akademikCategory = Category::firstOrCreate(['slug' => 'akademik'], ['name' => 'Akademik']);
+        $akademikPosts = [
+            [
+                'title' => 'Pendaftaran Mata Kuliah Semester Genap 2025/2026 Dibuka',
+                'slug' => 'pendaftaran-matkul-genap-2025-2026',
+                'excerpt' => 'Program Studi Sistem Informasi membuka pendaftaran mata kuliah untuk semester genap tahun akademik 2025/2026.',
+                'content' => '<p>Mahasiswa dapat melakukan pendaftaran mata kuliah melalui portal akademik mulai tanggal 15 Januari 2026. Pastikan telah melunasi pembayaran UKT sebelum melakukan pendaftaran.</p>',
+            ],
+            [
+                'title' => 'Workshop Pengembangan Kurikulum Berbasis KKNI',
+                'slug' => 'workshop-kurikulum-kkni-2025',
+                'excerpt' => 'Program Studi mengadakan workshop pengembangan kurikulum berbasis Kerangka Kualifikasi Nasional Indonesia.',
+                'content' => '<p>Workshop ini bertujuan untuk menyesuaikan kurikulum dengan kebutuhan industri dan standar KKNI. Dihadiri oleh seluruh dosen dan stakeholder industri.</p>',
+            ],
+        ];
+
+        foreach ($akademikPosts as $post) {
+            $img = $useMedia && $mediaImages->count() > 0 ? asset('storage/media/large/' . $mediaImages->random()->file_name) : 'https://picsum.photos/seed/akademik/800/500';
+            Post::updateOrCreate(
+                ['slug' => $post['slug']],
+                [
+                    'title' => $post['title'],
+                    'excerpt' => $post['excerpt'],
+                    'content' => $post['content'],
+                    'featured_image' => $img,
+                    'status' => 'published',
+                    'published_at' => now()->subDays(rand(1, 30)),
+                    'category_id' => $akademikCategory->id,
+                    'author_id' => $author->id,
+                    'views' => rand(50, 300),
+                    'event_location' => 'Gedung C, Ruang Sidang Utama',
+                    'event_status' => 'open',
+                    'event_participants' => rand(20, 100),
+                    'event_cta_type' => collect(['register', 'detail', 'download'])->random(),
+                ]
+            );
+        }
+
+        // Penelitian Category
+        $penelitianCategory = Category::firstOrCreate(['slug' => 'penelitian'], ['name' => 'Penelitian']);
+        $penelitianPosts = [
+            [
+                'title' => 'Hibah Penelitian DIKTI 2025 untuk Riset AI dan Big Data',
+                'slug' => 'hibah-penelitian-dikti-ai-bigdata-2025',
+                'excerpt' => 'Tim peneliti SI UNIB berhasil mendapatkan hibah penelitian dari DIKTI untuk pengembangan sistem berbasis AI dan Big Data.',
+                'content' => '<p>Penelitian ini fokus pada pengembangan sistem prediksi berbasis machine learning untuk analisis data pendidikan. Dana hibah sebesar 500 juta rupiah akan digunakan untuk pengembangan selama 2 tahun.</p>',
+            ],
+            [
+                'title' => 'Publikasi Jurnal Internasional Q1 oleh Dosen SI UNIB',
+                'slug' => 'publikasi-jurnal-q1-dosen-si-2025',
+                'excerpt' => 'Dosen Program Studi Sistem Informasi berhasil mempublikasikan penelitiannya di jurnal internasional bereputasi Q1.',
+                'content' => '<p>Penelitian tentang implementasi blockchain dalam sistem informasi kesehatan berhasil dipublikasikan di Journal of Medical Informatics yang merupakan jurnal Q1.</p>',
+            ],
+        ];
+
+        foreach ($penelitianPosts as $post) {
+            $img = $useMedia && $mediaImages->count() > 0 ? asset('storage/media/large/' . $mediaImages->random()->file_name) : 'https://picsum.photos/seed/penelitian/800/500';
+            Post::updateOrCreate(
+                ['slug' => $post['slug']],
+                [
+                    'title' => $post['title'],
+                    'excerpt' => $post['excerpt'],
+                    'content' => $post['content'],
+                    'featured_image' => $img,
+                    'status' => 'published',
+                    'published_at' => now()->subDays(rand(1, 30)),
+                    'category_id' => $penelitianCategory->id,
+                    'author_id' => $author->id,
+                    'views' => rand(50, 300),
+                ]
+            );
+        }
+
+        // Kegiatan Category
+        $kegiatanCategory = Category::firstOrCreate(['slug' => 'kegiatan'], ['name' => 'Kegiatan']);
+        $kegiatanPosts = [
+            [
+                'title' => 'Seminar Nasional Teknologi Informasi 2025',
+                'slug' => 'seminar-nasional-ti-2025',
+                'excerpt' => 'Program Studi Sistem Informasi menyelenggarakan Seminar Nasional Teknologi Informasi dengan tema transformasi digital.',
+                'content' => '<p>Seminar ini menghadirkan pembicara dari berbagai perusahaan teknologi terkemuka dan akademisi. Lebih dari 500 peserta mengikuti kegiatan ini baik secara offline maupun online.</p>',
+            ],
+            [
+                'title' => 'Workshop Sertifikasi IT Professional untuk Mahasiswa',
+                'slug' => 'workshop-sertifikasi-it-2025',
+                'excerpt' => 'Program Studi mengadakan workshop persiapan sertifikasi IT professional untuk meningkatkan daya saing mahasiswa.',
+                'content' => '<p>Workshop ini mempersiapkan mahasiswa untuk mengikuti sertifikasi internasional seperti AWS, Google Cloud, dan Microsoft Azure. Peserta mendapatkan voucher ujian gratis.</p>',
+            ],
+        ];
+
+        foreach ($kegiatanPosts as $post) {
+            $img = $useMedia && $mediaImages->count() > 0 ? asset('storage/media/large/' . $mediaImages->random()->file_name) : 'https://picsum.photos/seed/kegiatan/800/500';
+            Post::updateOrCreate(
+                ['slug' => $post['slug']],
+                [
+                    'title' => $post['title'],
+                    'excerpt' => $post['excerpt'],
+                    'content' => $post['content'],
+                    'featured_image' => $img,
+                    'status' => 'published',
+                    'published_at' => now()->subDays(rand(1, 30)),
+                    'category_id' => $kegiatanCategory->id,
+                    'author_id' => $author->id,
+                    'views' => rand(50, 300),
+                ]
+            );
+        }
+
+        $this->command->info('Posts seeded for all categories: Berita, Prestasi, Akademik, Penelitian, Kegiatan');
     }
 }

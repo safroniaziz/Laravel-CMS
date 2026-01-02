@@ -176,6 +176,114 @@
                         </div>
                     </div>
 
+                    <!--begin:Menu item - Home Settings (Dropdown)-->
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::is('home-settings.*', 'admin.sliders.*') ? 'show' : '' }}">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <i class="fas fa-home fs-4"></i>
+                            </span>
+                            <span class="menu-title">Home Settings</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('admin.sliders.*') ? 'active' : '' }}" href="{{ route('admin.sliders.index') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Slider Images</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.hero') ? 'active' : '' }}" href="{{ route('home-settings.hero') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Hero Styling</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.news') ? 'active' : '' }}" href="{{ route('home-settings.news') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Berita Terbaru</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.category') ? 'active' : '' }}" href="{{ route('home-settings.category') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Category Sections</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.kenali') ? 'active' : '' }}" href="{{ route('home-settings.kenali') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Kenali Lebih Dekat</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.alumni') ? 'active' : '' }}" href="{{ route('home-settings.alumni') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Kata Alumni</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.cta') ? 'active' : '' }}" href="{{ route('home-settings.cta') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Call to Action</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.general') ? 'active' : '' }}" href="{{ route('home-settings.general') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">General</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.info-card') ? 'active' : '' }}" href="{{ route('home-settings.info-card') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Info Card</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.footer') ? 'active' : '' }}" href="{{ route('home-settings.footer') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Footer</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.homepage-builder') ? 'active' : '' }}" href="{{ route('home-settings.homepage-builder') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">🏗️ Custom Sections</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Teachers Menu --}}
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::is('admin.teachers.*', 'admin.teacher-settings.*') ? 'show' : '' }}">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <i class="fas fa-user-tie fs-4"></i>
+                            </span>
+                            <span class="menu-title">Teachers</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('admin.teachers.index') ? 'active' : '' }}" href="{{ route('admin.teachers.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">All Teachers</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::is('admin.teacher-settings.index') ? 'active' : '' }}" href="{{ route('admin.teacher-settings.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Settings</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <!--begin:Menu heading - Website-->
                     <div class="menu-item pt-5">
                         <div class="menu-content">

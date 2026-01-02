@@ -185,10 +185,42 @@
             font-family: inherit;
             cursor: pointer;
             transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .btn-login:hover {
+        .btn-login:hover:not(:disabled) {
             background: #151d54;
+        }
+
+        .btn-login:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .btn-login .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn-login.loading .spinner {
+            display: inline-block;
+        }
+
+        .btn-login.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Footer */
@@ -276,7 +308,10 @@
                     <a href="#" class="forgot-link">Forgot password?</a>
                 </div>
 
-                <button type="submit" class="btn-login">Sign In</button>
+                <button type="submit" class="btn-login" id="login-btn">
+                    <span class="spinner"></span>
+                    <span class="btn-text">Sign In</span>
+                </button>
             </form>
 
             <div class="login-footer">
@@ -291,10 +326,12 @@
     </div>
 
     <script>
-        // Enhanced CSRF token management
+        // Enhanced CSRF token management + Double-click prevention
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('form');
             const csrfInput = document.querySelector('input[name="_token"]');
+            const loginBtn = document.getElementById('login-btn');
+            let isSubmitting = false;
             let tokenRefreshInterval;
             let countdownInterval;
             let timeLeft = 600; // 10 minutes in seconds
@@ -374,9 +411,20 @@
                 }, 1000);
             }
             
-            // Handle form submission with CSRF check
+            // Handle form submission with CSRF check + Double-click prevention
             if (form) {
                 form.addEventListener('submit', function(e) {
+                    // Double-click prevention
+                    if (isSubmitting) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    // Show loading state immediately
+                    isSubmitting = true;
+                    loginBtn.disabled = true;
+                    loginBtn.classList.add('loading');
+                    
                     // Check if token looks old/expired (basic check)
                     const submitTime = Date.now();
                     const formLoadTime = window.performance.timing.domContentLoadedEventEnd;
@@ -386,21 +434,14 @@
                     if (timeSinceLoad > 10) {
                         e.preventDefault();
                         
-                        // Show refreshing message
-                        const submitBtn = form.querySelector('button[type="submit"]');
-                        const originalText = submitBtn.innerHTML;
-                        submitBtn.disabled = true;
-                        submitBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin me-2"></i>Refreshing security token...';
-                        
                         refreshCSRFToken();
                         
                         // Submit after token refresh
                         setTimeout(() => {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = originalText;
                             form.submit();
                         }, 1000);
                     }
+                    // Otherwise let normal submit proceed (already showing loading state)
                 });
             }
             

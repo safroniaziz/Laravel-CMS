@@ -719,6 +719,8 @@
                     }
     </style>
 
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     @stack('styles')
 </head>
 <body>
@@ -817,11 +819,199 @@
                     </ul>
                 </nav>
 
-                {{-- Login Button --}}
-                <a href="/login" class="login-btn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Login</span>
-                </a>
+                {{-- Auth Button --}}
+                {{-- Auth Button --}}
+                @auth
+                    <div class="user-menu-wrapper">
+                        <button class="user-menu-trigger" onclick="toggleUserMenu()">
+                            <div class="user-avatar-circle">
+                                {{ substr(Auth::user()->name, 0, 1) }}
+                            </div>
+                            <span class="user-name">{{ Auth::user()->name }}</span>
+                            <i class="fas fa-chevron-down arrow-icon"></i>
+                        </button>
+                        
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <div class="dropdown-header">
+                                <div class="user-info">
+                                    <p class="name">{{ Auth::user()->name }}</p>
+                                    <p class="email">{{ Auth::user()->email }}</p>
+                                </div>
+                            </div>
+                            
+                            <a href="{{ route('dashboard') }}" class="dropdown-item">
+                                <i class="fas fa-columns"></i>
+                                <span>Dashboard</span>
+                            </a>
+                            
+                            <div class="dropdown-divider"></div>
+                            
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <style>
+                        .user-menu-wrapper {
+                            position: relative;
+                        }
+
+                        .user-menu-trigger {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            padding: 6px 16px 6px 6px;
+                            background: #fff;
+                            border: 1px solid #e2e8f0;
+                            border-radius: 30px;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+
+                        .user-menu-trigger:hover {
+                            background: #f8fafc;
+                            border-color: #cbd5e1;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                        }
+
+                        .user-avatar-circle {
+                            width: 32px;
+                            height: 32px;
+                            background: linear-gradient(135deg, #3b82f6, #2563eb);
+                            color: #fff;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: 700;
+                            font-size: 14px;
+                        }
+
+                        .user-name {
+                            font-size: 14px;
+                            font-weight: 600;
+                            color: #334155;
+                            max-width: 120px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+
+                        .arrow-icon {
+                            font-size: 10px;
+                            color: #94a3b8;
+                            transition: transform 0.2s ease;
+                        }
+
+                        .user-menu-wrapper.active .arrow-icon {
+                            transform: rotate(180deg);
+                        }
+
+                        .user-dropdown-menu {
+                            position: absolute;
+                            top: calc(100% + 10px);
+                            right: 0;
+                            width: 220px;
+                            background: #fff;
+                            border-radius: 16px;
+                            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.1);
+                            border: 1px solid #f1f5f9;
+                            opacity: 0;
+                            visibility: hidden;
+                            transform: translateY(10px);
+                            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+                            z-index: 50;
+                            overflow: hidden;
+                        }
+
+                        .user-menu-wrapper.active .user-dropdown-menu {
+                            opacity: 1;
+                            visibility: visible;
+                            transform: translateY(0);
+                        }
+
+                        .dropdown-header {
+                            padding: 16px;
+                            background: #f8fafc;
+                            border-bottom: 1px solid #e2e8f0;
+                        }
+
+                        .user-info .name {
+                            font-size: 14px;
+                            font-weight: 700;
+                            color: #1e293b;
+                            margin: 0;
+                        }
+
+                        .user-info .email {
+                            font-size: 12px;
+                            color: #64748b;
+                            margin: 2px 0 0 0;
+                        }
+
+                        .dropdown-item {
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            padding: 12px 16px;
+                            color: #475569;
+                            text-decoration: none;
+                            font-size: 14px;
+                            font-weight: 500;
+                            transition: all 0.2s;
+                            width: 100%;
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                            text-align: left;
+                        }
+
+                        .dropdown-item:hover {
+                            background: #f1f5f9;
+                            color: #1a246a;
+                        }
+
+                        .dropdown-item.text-danger {
+                            color: #ef4444;
+                        }
+
+                        .dropdown-item.text-danger:hover {
+                            background: #fef2f2;
+                            color: #dc2626;
+                        }
+
+                        .dropdown-divider {
+                            height: 1px;
+                            background: #f1f5f9;
+                            margin: 4px 0;
+                        }
+                    </style>
+
+                    <script>
+                        function toggleUserMenu() {
+                            const wrapper = document.querySelector('.user-menu-wrapper');
+                            wrapper.classList.toggle('active');
+                        }
+
+                        // Close when clicking outside
+                        document.addEventListener('click', function(e) {
+                            const wrapper = document.querySelector('.user-menu-wrapper');
+                            if (wrapper && !wrapper.contains(e.target)) {
+                                wrapper.classList.remove('active');
+                            }
+                        });
+                    </script>
+                @else
+                    <a href="/login" class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                @endauth
 
                 <button class="mobile-toggle" id="mobileToggle">
                     <i class="fas fa-bars"></i>
@@ -834,6 +1024,7 @@
     <main style="margin: 0; padding: 0;">
         @yield('content')
     </main>
+    {{-- Footer is provided by other-sections.blade.php which is included in all pages --}}
 
 
     <script>
@@ -870,6 +1061,41 @@
         });
     </script>
 
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-add AOS to elements without it
+            const elements = document.querySelectorAll('.block-wrapper, .gallery-section, .sidebar-block, .section-header-premium, .block-text, [id^="slider"], [id^="text-"], [id^="stats-"]');
+            
+            elements.forEach((el, index) => {
+                if (!el.hasAttribute('data-aos')) {
+                    el.setAttribute('data-aos', 'fade-up');
+                    el.setAttribute('data-aos-duration', '800');
+                    el.setAttribute('data-aos-delay', String((index % 3) * 150));
+                }
+            });
+            
+            // Gallery items - stagger animation
+            document.querySelectorAll('.gallery-item').forEach((el, index) => {
+                if (!el.hasAttribute('data-aos')) {
+                    el.setAttribute('data-aos', 'zoom-in');
+                    el.setAttribute('data-aos-duration', '500');
+                    el.setAttribute('data-aos-delay', String((index % 6) * 100));
+                }
+            });
+            
+            // Initialize AOS with smooth settings
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-quart',
+                once: false,
+                mirror: false,
+                offset: 120,
+                anchorPlacement: 'top-bottom'
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

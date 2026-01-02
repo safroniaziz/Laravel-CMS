@@ -22,6 +22,8 @@ class Teacher extends Model
         'photo',
         'email',
         'phone',
+        'linkedin',
+        'google_scholar',
         'bio',
         'order',
         'is_active',

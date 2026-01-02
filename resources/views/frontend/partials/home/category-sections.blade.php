@@ -14,6 +14,21 @@
         ];
     }
 
+    // Fetch UI text labels
+    try {
+        $uiTexts = [
+            'see_all' => App\Models\Setting::where('key', 'text_see_all')->value('value') ?? 'LIHAT SEMUA',
+            'see_all_lower' => App\Models\Setting::where('key', 'text_see_all_lower')->value('value') ?? 'Lihat Semua',
+            'empty_category' => App\Models\Setting::where('key', 'text_empty_category')->value('value') ?? 'Data kosong',
+        ];
+    } catch (\Exception $e) {
+        $uiTexts = [
+            'see_all' => 'LIHAT SEMUA',
+            'see_all_lower' => 'Lihat Semua',
+            'empty_category' => 'Data kosong',
+        ];
+    }
+
     // Fetch category sections settings from database
     try {
         $categoryLayoutStyle = App\Models\Setting::where('key', 'category_layout_style')->value('value') ?? 'current';
@@ -143,13 +158,13 @@
                             <a href="{{ route('blog.index') }}?category={{ $category['slug'] }}" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 10px 0; border: 1px solid {{ $categoryPrimaryColor }}; border-radius: 6px; color: {{ $categoryPrimaryColor }}; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;"
                                onmouseover="this.style.background='{{ $categoryPrimaryColor }}'; this.style.color='#fff';"
                                onmouseout="this.style.background='transparent'; this.style.color='{{ $categoryPrimaryColor }}';">
-                                LIHAT SEMUA
+                                {{ $uiTexts['see_all'] }}
                                 <i class="{{ $icons['arrow_right'] }}" style="margin-left: 8px; font-size: 11px;"></i>
                             </a>
                         </div>
                     @else
                         <div style="padding: 20px; background: #f8fafc; border-radius: 8px; text-align: center; color: #94a3b8; font-size: 14px;">
-                            Belum ada berita
+                            {{ $uiTexts['empty_category'] }}
                         </div>
                     @endif
                 </div>
@@ -197,12 +212,12 @@
                             <a href="{{ route('blog.index') }}?category={{ $category['slug'] }}" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 10px 0; border: 1px solid {{ $categoryAccentColor }}; border-radius: 6px; color: {{ $categoryAccentColor }}; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;"
                                onmouseover="this.style.background='{{ $categoryAccentColor }}'; this.style.color='#fff';"
                                onmouseout="this.style.background='transparent'; this.style.color='{{ $categoryAccentColor }}';">
-                                LIHAT SEMUA
+                                {{ $uiTexts['see_all'] }}
                                 <i class="{{ $icons['arrow_right'] }}" style="margin-left: 8px; font-size: 11px;"></i>
                             </a>
                         @else
                             <div style="padding: 20px; text-align: center; color: #94a3b8; font-size: 14px;">
-                                Belum ada berita
+                                {{ $uiTexts['empty_category'] }}
                             </div>
                         @endif
                     </div>
@@ -220,7 +235,7 @@
                             {{ $category['title'] }}
                         </h3>
                         <a href="{{ route('blog.index') }}?category={{ $category['slug'] }}" style="font-size: 14px; font-weight: 600; color: {{ $categoryAccentColor }}; text-decoration: none; display: flex; align-items: center; gap: 8px;">
-                            Lihat Semua
+                            {{ $uiTexts['see_all_lower'] }}
                             <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
                         </a>
                     </div>
@@ -251,7 +266,7 @@
                         </div>
                     @else
                         <div style="padding: 40px; background: #f8fafc; border-radius: 8px; text-align: center; color: #94a3b8; font-size: 14px;">
-                            Belum ada berita
+                            {{ $uiTexts['empty_category'] }}
                         </div>
                     @endif
                 </div>
@@ -322,7 +337,7 @@
                     </div>
                 @else
                     <div style="padding: 40px; background: #f8fafc; border-radius: 8px; text-align: center; color: #94a3b8; font-size: 14px;">
-                        Belum ada berita
+                        {{ $uiTexts['empty_category'] }}
                     </div>
                 @endif
             </div>

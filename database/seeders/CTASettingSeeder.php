@@ -16,6 +16,9 @@ class CTASettingSeeder extends Seeder
             // Visibility Control
             ['key' => 'cta_show', 'value' => '1'],
             
+            // Icon
+            ['key' => 'cta_icon', 'value' => 'fas fa-rocket'],
+            
             // Layout Style
             ['key' => 'cta_layout_style', 'value' => 'current'], // current, minimal, split, centered
             
@@ -68,7 +71,11 @@ class CTASettingSeeder extends Seeder
         foreach ($ctaSettings as $setting) {
             Setting::updateOrCreate(
                 ['key' => $setting['key']],
-                ['value' => $setting['value']]
+                [
+                    'value' => $setting['value'],
+                    'group' => 'homepage',
+                    'type' => 'string'
+                ]
             );
         }
     }

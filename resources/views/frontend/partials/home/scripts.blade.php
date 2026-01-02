@@ -302,101 +302,95 @@ $(document).ready(function() {
             });
         }
     );
-    // Alumni Testimonials Scrollable Container
+    // Alumni Testimonials Scrollable Container (only if exists)
     const alumniContainer = $('#alumni-scroll-container');
     const scrollUpBtn = $('#alumni-scroll-up');
     const scrollDownBtn = $('#alumni-scroll-down');
     const scrollProgress = $('#scroll-progress');
 
-    let isScrolling = false;
+    if (alumniContainer.length && alumniContainer[0]) {
+        let isScrolling = false;
 
-    // Update scroll progress indicator
-    function updateScrollProgress() {
-        const scrollTop = alumniContainer.scrollTop();
-        const scrollHeight = alumniContainer[0].scrollHeight - alumniContainer.height();
-        const scrollPercentage = (scrollTop / scrollHeight) * 100;
-        scrollProgress.css('height', Math.max(10, Math.min(100, scrollPercentage)) + '%');
-    }
-
-    // Scroll functions
-    function scrollUp() {
-        if (!isScrolling) {
-            isScrolling = true;
-            const currentScroll = alumniContainer.scrollTop();
-            const newScroll = Math.max(0, currentScroll - 200);
-            alumniContainer.animate({
-                scrollTop: newScroll
-            }, 300, function() {
-                isScrolling = false;
-                updateScrollProgress();
-            });
+        // Update scroll progress indicator
+        function updateScrollProgress() {
+            if (!alumniContainer[0]) return;
+            const scrollTop = alumniContainer.scrollTop();
+            const scrollHeight = alumniContainer[0].scrollHeight - alumniContainer.height();
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            scrollProgress.css('height', Math.max(10, Math.min(100, scrollPercentage)) + '%');
         }
-    }
 
-    function scrollDown() {
-        if (!isScrolling) {
-            isScrolling = true;
-            const currentScroll = alumniContainer.scrollTop();
-            const maxScroll = alumniContainer[0].scrollHeight - alumniContainer.height();
-            const newScroll = Math.min(maxScroll, currentScroll + 200);
-            alumniContainer.animate({
-                scrollTop: newScroll
-            }, 300, function() {
-                isScrolling = false;
-                updateScrollProgress();
-            });
+        // Scroll functions
+        function scrollUp() {
+            if (!isScrolling && alumniContainer[0]) {
+                isScrolling = true;
+                const currentScroll = alumniContainer.scrollTop();
+                const newScroll = Math.max(0, currentScroll - 200);
+                alumniContainer.animate({
+                    scrollTop: newScroll
+                }, 300, function() {
+                    isScrolling = false;
+                    updateScrollProgress();
+                });
+            }
         }
-    }
 
-    // Button click handlers
-    scrollUpBtn.on('click', function(e) {
-        e.preventDefault();
-        scrollUp();
-    });
-
-    scrollDownBtn.on('click', function(e) {
-        e.preventDefault();
-        scrollDown();
-    });
-
-    // Scroll event handler
-    alumniContainer.on('scroll', function() {
-        if (!isScrolling) {
-            updateScrollProgress();
+        function scrollDown() {
+            if (!isScrolling && alumniContainer[0]) {
+                isScrolling = true;
+                const currentScroll = alumniContainer.scrollTop();
+                const maxScroll = alumniContainer[0].scrollHeight - alumniContainer.height();
+                const newScroll = Math.min(maxScroll, currentScroll + 200);
+                alumniContainer.animate({
+                    scrollTop: newScroll
+                }, 300, function() {
+                    isScrolling = false;
+                    updateScrollProgress();
+                });
+            }
         }
-    });
 
-    // Button hover effects
-    scrollUpBtn.add(scrollDownBtn).hover(
-        function() {
-            $(this).css({
-                'transform': $(this).attr('id') === 'alumni-scroll-up'
-                    ? 'translateX(-50%) translateY(-2px) scale(1.05)'
-                    : 'translateX(-50%) translateY(2px) scale(1.05)',
-                'box-shadow': '0 6px 20px rgba(255, 107, 53, 0.4)'
-            });
-        },
-        function() {
-            $(this).css({
-                'transform': $(this).attr('id') === 'alumni-scroll-up'
-                    ? 'translateX(-50%) translateY(0) scale(1)'
-                    : 'translateX(-50%) translateY(0) scale(1)',
-                'box-shadow': '0 4px 15px rgba(255, 107, 53, 0.3)'
-            });
-        }
-    );
-
-    // Keyboard navigation
-    $(document).on('keydown', function(e) {
-        if (e.key === 'ArrowUp') {
+        // Button click handlers
+        scrollUpBtn.on('click', function(e) {
+            e.preventDefault();
             scrollUp();
-        } else if (e.key === 'ArrowDown') {
-            scrollDown();
-        }
-    });
+        });
 
-    // Initialize
-    updateScrollProgress();
+        scrollDownBtn.on('click', function(e) {
+            e.preventDefault();
+            scrollDown();
+        });
+
+        // Scroll event handler
+        alumniContainer.on('scroll', function() {
+            if (!isScrolling) {
+                updateScrollProgress();
+            }
+        });
+
+        // Button hover effects
+        scrollUpBtn.add(scrollDownBtn).hover(
+            function() {
+                $(this).css({
+                    'transform': $(this).attr('id') === 'alumni-scroll-up'
+                        ? 'translateX(-50%) translateY(-2px) scale(1.05)'
+                        : 'translateX(-50%) translateY(2px) scale(1.05)',
+                    'box-shadow': '0 6px 20px rgba(255, 107, 53, 0.4)'
+                });
+            },
+            function() {
+                $(this).css({
+                    'transform': $(this).attr('id') === 'alumni-scroll-up'
+                        ? 'translateX(-50%) translateY(0) scale(1)'
+                        : 'translateX(-50%) translateY(0) scale(1)',
+                    'box-shadow': '0 4px 15px rgba(255, 107, 53, 0.3)'
+                });
+            }
+        );
+
+        // Initialize
+        updateScrollProgress();
+    }
 
     // Alumni Carousel (for carousel layout)
     let currentAlumniSlide = 0;
@@ -466,6 +460,108 @@ $(document).ready(function() {
 
     // Make goToAlumniSlide available globally (for onclick handlers)
     window.goToSlide = goToAlumniSlide;
+
+    // ============================================
+    // NEW: Alumni Main Carousel (Full-Width Design)
+    // ============================================
+    let currentAlumniMainSlide = 0;
+    const alumniMainTrack = $('#alumni-main-track');
+    const alumniMainSlides = $('.alumni-main-slide');
+    const totalAlumniMainSlides = alumniMainSlides.length;
+    const alumniMainDots = $('.alumni-main-dot');
+    const alumniMainDotsContainer = $('#alumni-main-dots');
+    const alumniMainAccentColor = alumniMainDotsContainer.length ? alumniMainDotsContainer.data('accent-color') || '#ff6b35' : '#ff6b35';
+
+    function updateAlumniMainCarousel() {
+        if (alumniMainTrack.length && alumniMainSlides.length) {
+            const translateX = -currentAlumniMainSlide * 100;
+            alumniMainTrack.css('transform', `translateX(${translateX}%)`);
+
+            // Update dots - active dot is wider
+            alumniMainDots.each(function(index) {
+                if (index === currentAlumniMainSlide) {
+                    $(this).css({
+                        'width': '32px',
+                        'background': alumniMainAccentColor
+                    });
+                } else {
+                    $(this).css({
+                        'width': '12px',
+                        'background': 'rgba(0,0,0,0.15)'
+                    });
+                }
+            });
+        }
+    }
+
+    function nextAlumniMainSlide() {
+        if (totalAlumniMainSlides > 0) {
+            currentAlumniMainSlide = (currentAlumniMainSlide + 1) % totalAlumniMainSlides;
+            updateAlumniMainCarousel();
+        }
+    }
+
+    function prevAlumniMainSlide() {
+        if (totalAlumniMainSlides > 0) {
+            currentAlumniMainSlide = (currentAlumniMainSlide - 1 + totalAlumniMainSlides) % totalAlumniMainSlides;
+            updateAlumniMainCarousel();
+        }
+    }
+
+    function goToAlumniMainSlide(index) {
+        if (index >= 0 && index < totalAlumniMainSlides) {
+            currentAlumniMainSlide = index;
+            updateAlumniMainCarousel();
+        }
+    }
+
+    // Navigation buttons
+    $('#alumni-main-prev').on('click', function(e) {
+        e.preventDefault();
+        prevAlumniMainSlide();
+    });
+
+    $('#alumni-main-next').on('click', function(e) {
+        e.preventDefault();
+        nextAlumniMainSlide();
+    });
+
+    // Dots click handler
+    alumniMainDots.on('click', function(e) {
+        e.preventDefault();
+        const index = $(this).data('index');
+        goToAlumniMainSlide(index);
+    });
+
+    // Auto-rotate every 6 seconds
+    let alumniMainAutoRotate;
+    function startAlumniMainAutoRotate() {
+        if (totalAlumniMainSlides > 1) {
+            alumniMainAutoRotate = setInterval(function() {
+                if ($('#alumni-main-carousel').length && $('#alumni-main-carousel').is(':visible')) {
+                    nextAlumniMainSlide();
+                }
+            }, 6000);
+        }
+    }
+
+    function stopAlumniMainAutoRotate() {
+        if (alumniMainAutoRotate) {
+            clearInterval(alumniMainAutoRotate);
+        }
+    }
+
+    // Start auto-rotate
+    startAlumniMainAutoRotate();
+
+    // Pause on hover
+    $('#alumni-main-carousel').hover(
+        function() { stopAlumniMainAutoRotate(); },
+        function() { startAlumniMainAutoRotate(); }
+    );
+
+    // Initialize
+    updateAlumniMainCarousel();
 });
 </script>
 @endpush

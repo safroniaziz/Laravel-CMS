@@ -15,8 +15,8 @@ class AlumniSettingSeeder extends Seeder
 
             // Section header
             ['key' => 'section_icon', 'value' => '🎓'],
-            ['key' => 'section_badge_text', 'value' => 'IKATAN ALUMNI'],
-            ['key' => 'section_title', 'value' => 'IKATAN ALUMNI'],
+            ['key' => 'section_badge_text', 'value' => 'KATA ALUMNI'],
+            ['key' => 'section_title', 'value' => 'KATA ALUMNI'],
             ['key' => 'section_title_highlight', 'value' => 'SISTEM INFORMASI'],
             ['key' => 'section_subtitle', 'value' => 'Testimoni dari para alumni yang telah sukses berkarir di berbagai bidang'],
 
@@ -43,7 +43,7 @@ class AlumniSettingSeeder extends Seeder
 
             // Right Side Illustration Image
             ['key' => 'right_side_image_url', 'value' => ''],
-            ['key' => 'right_side_image_alt', 'value' => 'Ikatan Alumni Sistem Informasi'],
+            ['key' => 'right_side_image_alt', 'value' => 'Kata Alumni Sistem Informasi'],
             ['key' => 'right_side_image_enabled', 'value' => 'true'], // Default true untuk menampilkan kalau ada gambar
             ['key' => 'right_side_fallback_to_illustration', 'value' => 'true'], // Default true untuk menampilkan ilustrasi jika tidak ada gambar
             ['key' => 'right_side_empty_message', 'value' => 'Silakan tambahkan gambar melalui pengaturan alumni'],

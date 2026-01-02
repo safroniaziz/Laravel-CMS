@@ -63,7 +63,7 @@
                 <h2 style="font-size: 36px; font-weight: 700; color: {{ $themeColors['primary'] }}; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">
                     {{ $newsHeader['title'] }}
                 </h2>
-                @if($newsHeader['show_subtitle'] == '1')
+                @if($newsHeader['show_subtitle'] == '1' && !empty($newsHeader['subtitle']))
                     <p style="font-size: 14px; color: {{ $themeColors['text_secondary'] }}; margin: 8px 0 0 0;">
                         {{ $newsHeader['subtitle'] }}
                     </p>
@@ -84,7 +84,7 @@
             @endphp
 
             @if($newsLayoutStyle === 'current')
-            {{-- LAYOUT 1: Current UGM Style (Featured + 3 Grid) --}}
+            {{-- LAYOUT 1: Current Style (Featured + 3 Grid) --}}
             {{-- Featured Post --}}
             <div style="margin-bottom: 40px;" data-aos="fade-up" data-aos-delay="100">
                 <article onclick="window.location='{{ route('blog.show', $featuredPost->slug) }}'"
@@ -340,7 +340,7 @@
                          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.1)';">
 
                     {{-- Image --}}
-                    <div style="position: relative; height: 400px; overflow: hidden; background: linear-gradient(135deg, #1a246a, #2563eb);">
+                    <div style="position: relative; height: 350px; overflow: hidden; background: linear-gradient(135deg, #1a246a, #2563eb);">
                         @if($featuredPost->featured_image)
                             <img src="{{ $featuredPost->featured_image }}" alt="{{ $featuredPost->title }}"
                                  style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;"
@@ -362,26 +362,24 @@
                     </div>
 
                     {{-- Content Overlay on Image --}}
-                    <div style="position: relative; margin-top: -120px; padding: 0 32px 32px 32px; z-index: 2;">
-                        <div style="background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
-                            {{-- Date --}}
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: #64748b; font-size: 13px;">
-                                <i class="{{ $icons['calendar'] }}" style="color: {{ $themeColors['primary'] }};"></i>
-                                <span>{{ $featuredPost->published_at->format('d F Y, H.i') }}</span>
-                            </div>
-
-                            {{-- Title --}}
-                            <h3 style="font-size: 26px; font-weight: 800; color: #1a246a; margin: 0 0 16px 0; line-height: 1.3;">
-                                {{ $featuredPost->title }}
-                            </h3>
-
-                            {{-- Excerpt --}}
-                            @if($featuredPost->excerpt)
-                            <p style="font-size: 15px; color: #475569; margin: 0; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                                {{ $featuredPost->excerpt }}
-                            </p>
-                            @endif
+                    <div style="position: relative; margin-top: -80px; padding: 25px; background: #fff; z-index: 2; border-top: 1px solid #e2e8f0;">
+                        {{-- Date --}}
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: #64748b; font-size: 13px;">
+                            <i class="{{ $icons['calendar'] }}" style="color: {{ $themeColors['primary'] }};"></i>
+                            <span>{{ $featuredPost->published_at->format('d F Y, H.i') }}</span>
                         </div>
+
+                        {{-- Title --}}
+                        <h3 style="font-size: 26px; font-weight: 800; color: #1a246a; margin: 0 0 16px 0; line-height: 1.3;">
+                            {{ $featuredPost->title }}
+                        </h3>
+
+                        {{-- Excerpt --}}
+                        @if($featuredPost->excerpt)
+                        <p style="font-size: 15px; color: #475569; margin: 0; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                            {{ $featuredPost->excerpt }}
+                        </p>
+                        @endif
                     </div>
                 </article>
 
@@ -433,7 +431,7 @@
             @endif
         @else
             @php
-                $newsEmptyText = App\Models\Setting::where('key', 'news_empty_text')->value('value') ?? 'Belum ada berita terbaru.';
+                $newsEmptyText = App\Models\Setting::where('key', 'news_empty_text')->value('value') ?? 'Data kosong.';
                 $newsEmptyIcon = $icons['news_fallback'];
                 $themeMutedBg = App\Models\Setting::where('key', 'theme_muted_bg')->value('value') ?? '#f8fafc';
                 $themeMutedText = App\Models\Setting::where('key', 'theme_muted_text_color')->value('value') ?? '#64748b';

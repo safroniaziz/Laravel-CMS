@@ -52,6 +52,7 @@ class SettingSeeder extends Seeder
             ['key' => 'theme_bg_white', 'value' => '#ffffff', 'type' => 'string', 'group' => 'theme'],
 
             // Homepage Sections - Berita Terbaru
+            ['key' => 'news_section_show', 'value' => '1', 'type' => 'boolean', 'group' => 'homepage'],
             ['key' => 'news_section_title', 'value' => 'Berita Terbaru', 'type' => 'string', 'group' => 'homepage'],
             ['key' => 'news_section_subtitle', 'value' => 'Informasi dan Berita Terbaru Program Studi Sistem Informasi', 'type' => 'string', 'group' => 'homepage'],
             ['key' => 'news_section_show_subtitle', 'value' => '0', 'type' => 'boolean', 'group' => 'homepage'],
@@ -61,7 +62,8 @@ class SettingSeeder extends Seeder
             // News Section Layout
             ['key' => 'news_layout_style', 'value' => 'current', 'type' => 'select', 'group' => 'homepage', 'options' => json_encode(['current' => 'Current UGM Style', 'academic_grid' => 'Academic Grid Cards', 'featured_list' => 'Featured List View', 'magazine' => 'Magazine Style'])],
 
-            // Hero Slider Layout
+            // Hero Slider Toggle & Layout
+            ['key' => 'hero_show', 'value' => '1', 'type' => 'boolean', 'group' => 'homepage'],
             ['key' => 'hero_layout_style', 'value' => 'current', 'type' => 'select', 'group' => 'homepage', 'options' => json_encode(['current' => 'Current Split Layout', 'centered' => 'Centered Layout', 'minimal' => 'Minimal Layout', 'fullscreen' => 'Fullscreen Layout'])],
 
             // Hero Slider Badge
@@ -82,7 +84,8 @@ class SettingSeeder extends Seeder
             ['key' => 'hero_secondary_button_link', 'value' => '/page/about', 'type' => 'string', 'group' => 'homepage'],
             ['key' => 'hero_secondary_button_show', 'value' => '1', 'type' => 'boolean', 'group' => 'homepage'],
 
-            // Category Sections Layout
+            // Category Sections Toggle & Layout
+            ['key' => 'category_section_show', 'value' => '1', 'type' => 'boolean', 'group' => 'homepage'],
             ['key' => 'category_layout_style', 'value' => 'current', 'type' => 'select', 'group' => 'homepage', 'options' => json_encode(['current' => 'Current 3-Column', 'grid' => 'Grid Cards', 'list' => 'List View', 'tabs' => 'Tabs View'])],
 
             // Category Sections Settings
@@ -100,10 +103,11 @@ class SettingSeeder extends Seeder
             ['key' => 'home_news_subtitle', 'value' => 'Informasi dan Berita Terbaru Program Studi Sistem Informasi', 'type' => 'string', 'group' => 'homepage'],
             ['key' => 'home_news_show_subtitle', 'value' => '1', 'type' => 'boolean', 'group' => 'homepage'],
 
-            ['key' => 'home_hero_title', 'value' => 'PROFIL LULUSAN', 'type' => 'string', 'group' => 'homepage'],
-            ['key' => 'home_hero_subtitle', 'value' => 'Selamat datang di platform kami! Kami adalah program studi terkemuka yang menghasilkan lulusan berkualitas dengan kompetensi tinggi di bidangnya.', 'type' => 'text', 'group' => 'homepage'],
+            ['key' => 'home_hero_title', 'value' => 'PROGRAM STUDI SISTEM INFORMASI', 'type' => 'string', 'group' => 'homepage'],
+            ['key' => 'home_hero_subtitle', 'value' => 'Membangun generasi unggul dengan kompetensi teknologi informasi dan sistem bisnis untuk menghadapi era digital dan Industri 4.0', 'type' => 'text', 'group' => 'homepage'],
 
-            // Academic Section Layout
+            // Academic Section Toggle & Layout
+            ['key' => 'academic_section_show', 'value' => '1', 'type' => 'boolean', 'group' => 'homepage'],
             ['key' => 'academic_layout_style', 'value' => 'featured_stack', 'type' => 'select', 'group' => 'homepage', 'options' => json_encode(['featured_stack' => 'Featured + Stack (Current)', 'timeline' => 'Timeline Akademis', 'agenda' => 'Agenda View', 'schedule' => 'Schedule View'])],
 
             // Academic Section Header
@@ -286,7 +290,8 @@ class SettingSeeder extends Seeder
             ['key' => 'news_empty_text', 'value' => 'Belum ada berita terbaru.', 'type' => 'string', 'group' => 'homepage'],
             ['key' => 'category_empty_text', 'value' => 'Belum ada berita untuk kategori ini.', 'type' => 'string', 'group' => 'homepage'],
 
-            // Dosen Section Layout
+            // Dosen Section Toggle & Layout
+            ['key' => 'dosen_section_show', 'value' => '1', 'type' => 'boolean', 'group' => 'homepage'],
             ['key' => 'dosen_layout_style', 'value' => 'slider', 'type' => 'select', 'group' => 'homepage', 'options' => json_encode(['slider' => 'Current Slider Design', 'stats_cards' => 'Modern Stats Cards', 'featured_grid' => 'Featured + Grid Hybrid'])],
 
             // Dosen Section Header
@@ -302,7 +307,8 @@ class SettingSeeder extends Seeder
             ['key' => 'dosen_section_bg_start', 'value' => '#f0f4ff', 'type' => 'string', 'group' => 'homepage'],
             ['key' => 'dosen_section_bg_end', 'value' => '#fafbff', 'type' => 'string', 'group' => 'homepage'],
 
-            // Kenali Section Layout
+            // Kenali Section Toggle & Layout
+            ['key' => 'kenali_section_show', 'value' => '1', 'type' => 'boolean', 'group' => 'homepage'],
             ['key' => 'kenali_layout_style', 'value' => 'current', 'type' => 'select', 'group' => 'homepage', 'options' => json_encode(['current' => 'Current Design (Video + Cards)', 'minimalist' => 'Minimalist Focus Layout', 'dual_column' => 'Dual-Column Interactive'])],
 
             // Kenali Section - Info 1 (Apa itu SI?)

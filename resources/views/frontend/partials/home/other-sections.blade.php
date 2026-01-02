@@ -48,14 +48,20 @@
         $uiTexts = [
             'see_all' => App\Models\Setting::where('key', 'text_see_all')->value('value') ?? 'LIHAT SEMUA',
             'see_all_lower' => App\Models\Setting::where('key', 'text_see_all_lower')->value('value') ?? 'Lihat Semua',
-            'empty_academic' => App\Models\Setting::where('key', 'text_empty_academic')->value('value') ?? 'Belum Ada Informasi Akademik',
-            'empty_category' => App\Models\Setting::where('key', 'text_empty_category')->value('value') ?? 'Belum ada berita',
+            'empty_academic' => App\Models\Setting::where('key', 'text_empty_academic')->value('value') ?? 'Data kosong',
+            'empty_category' => App\Models\Setting::where('key', 'text_empty_category')->value('value') ?? 'Data kosong',
             'register_now' => App\Models\Setting::where('key', 'text_register_now')->value('value') ?? 'Daftar Sekarang',
             'view_detail' => App\Models\Setting::where('key', 'text_view_detail')->value('value') ?? 'Lihat Detail',
             'download_material' => App\Models\Setting::where('key', 'text_download_material')->value('value') ?? 'Unduh Materi',
             'view_all_activities' => App\Models\Setting::where('key', 'text_view_all_activities')->value('value') ?? 'Lihat Semua Kegiatan Akademik',
             'participants' => App\Models\Setting::where('key', 'text_participants')->value('value') ?? 'Peserta',
             'latest' => App\Models\Setting::where('key', 'text_latest')->value('value') ?? 'TERBARU',
+            'status_open' => App\Models\Setting::where('key', 'text_status_open')->value('value') ?? 'Pendaftaran Dibuka',
+            'status_open_short' => App\Models\Setting::where('key', 'text_status_open_short')->value('value') ?? 'DIBUKA',
+            'status_ongoing' => App\Models\Setting::where('key', 'text_status_ongoing')->value('value') ?? 'Berlangsung',
+            'status_ongoing_short' => App\Models\Setting::where('key', 'text_status_ongoing_short')->value('value') ?? 'LIVE',
+            'status_completed' => App\Models\Setting::where('key', 'text_status_completed')->value('value') ?? 'Selesai',
+            'status_completed_short' => App\Models\Setting::where('key', 'text_status_completed_short')->value('value') ?? 'SELESAI',
         ];
 
         // Fetch component colors and styling
@@ -129,14 +135,20 @@
         $uiTexts = [
             'see_all' => 'LIHAT SEMUA',
             'see_all_lower' => 'Lihat Semua',
-            'empty_academic' => 'Belum Ada Informasi Akademik',
-            'empty_category' => 'Belum ada berita',
+            'empty_academic' => 'Data kosong',
+            'empty_category' => 'Data kosong',
             'register_now' => 'Daftar Sekarang',
             'view_detail' => 'Lihat Detail',
             'download_material' => 'Unduh Materi',
             'view_all_activities' => 'Lihat Semua Kegiatan Akademik',
             'participants' => 'Peserta',
             'latest' => 'TERBARU',
+            'status_open' => 'Pendaftaran Dibuka',
+            'status_open_short' => 'DIBUKA',
+            'status_ongoing' => 'Berlangsung',
+            'status_ongoing_short' => 'LIVE',
+            'status_completed' => 'Selesai',
+            'status_completed_short' => 'SELESAI',
         ];
         $componentStyles = [
             'white_bg' => '#ffffff',
@@ -225,6 +237,13 @@
             'cta' => $post->event_cta_type ?? 'detail',
         ];
     })->toArray();
+
+    // CTA Configuration - Global Scope
+    $ctaConfig = [
+        'register' => ['text' => $uiTexts['register_now'], 'bg' => '#10b981', 'icon' => $icons['arrow_right']],
+        'detail' => ['text' => $uiTexts['view_detail'], 'bg' => $academicColors['primary'], 'icon' => $icons['info_circle']],
+        'download' => ['text' => $uiTexts['download_material'], 'bg' => $academicColors['accent'], 'icon' => $icons['download']],
+    ];
 @endphp
 
 <!-- Informasi Akademik Section - Enhanced with Featured Layout -->
@@ -304,7 +323,7 @@
                             <div style="padding: 6px 14px; background: {{ $status['bg'] }}; border-radius: 20px; display: flex; align-items: center; gap: 6px;">
                                 <span style="font-size: 10px;">{{ $status['icon'] }}</span>
                                 <span style="font-size: 11px; font-weight: 700; color: {{ $status['text'] }};">
-                                    {{ $featuredMeta['status'] == 'open' ? 'Pendaftaran Dibuka' : ($featuredMeta['status'] == 'ongoing' ? 'Berlangsung' : 'Selesai') }}
+                                    {{ $featuredMeta['status'] == 'open' ? $uiTexts['status_open'] : ($featuredMeta['status'] == 'ongoing' ? $uiTexts['status_ongoing'] : $uiTexts['status_completed']) }}
                                 </span>
                             </div>
 
@@ -348,11 +367,6 @@
 
                         <!-- CTA Button -->
                         @php
-                            $ctaConfig = [
-                                'register' => ['text' => $uiTexts['register_now'], 'bg' => '#10b981', 'icon' => $icons['arrow_right']],
-                                'detail' => ['text' => $uiTexts['view_detail'], 'bg' => $academicColors['primary'], 'icon' => $icons['info_circle']],
-                                'download' => ['text' => $uiTexts['download_material'], 'bg' => $academicColors['accent'], 'icon' => $icons['download']],
-                            ];
                             $cta = $ctaConfig[$featuredMeta['cta']];
                         @endphp
                         <div style="display: inline-flex; align-items: center; gap: 10px; padding: 13px 26px; background: {{ $cta['bg'] }}; color: {{ $componentStyles['white_bg'] }}; border-radius: 10px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 16px {{ $cta['bg'] }}40; transition: all 0.2s ease;"
@@ -382,7 +396,7 @@
                                     <!-- Status Badge on Image -->
                                     @php $status = $statusColors[$meta['status']]; @endphp
                                     <div style="position: absolute; top: 8px; left: 8px; padding: 4px 10px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 12px;">
-                                        <span style="font-size: 9px; font-weight: 700; color: {{ $status['text'] }};">{{ $status['icon'] }} {{ $meta['status'] == 'open' ? 'DIBUKA' : ($meta['status'] == 'ongoing' ? 'LIVE' : 'SELESAI') }}</span>
+                                        <span style="font-size: 9px; font-weight: 700; color: {{ $status['text'] }};">{{ $status['icon'] }} {{ $meta['status'] == 'open' ? $uiTexts['status_open_short'] : ($meta['status'] == 'ongoing' ? $uiTexts['status_ongoing_short'] : $uiTexts['status_completed_short']) }}</span>
                                     </div>
                                 </div>
                             @else
@@ -479,7 +493,7 @@
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 6px;">
                                     <i class="{{ $icons['users'] }}" style="color: {{ $academicColors['accent'] }};"></i>
-                                    <span>{{ $meta['participants'] }} Peserta</span>
+                                    <span>{{ $meta['participants'] }} {{ $uiTexts['participants'] }}</span>
                                 </div>
                             </div>
 
@@ -524,7 +538,7 @@
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 6px;">
                                         <i class="{{ $icons['users'] }}" style="color: {{ $academicColors['accent'] }};"></i>
-                                        <span>{{ $meta['participants'] }} Peserta</span>
+                                        <span>{{ $meta['participants'] }} {{ $uiTexts['participants'] }}</span>
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-wrap: wrap; gap: 6px;">
@@ -582,7 +596,7 @@
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b;">
                                         <i class="fas fa-users" style="color: {{ $academicColors['accent'] }}; width: 16px;"></i>
-                                        <span>{{ $meta['participants'] }} Peserta</span>
+                                        <span>{{ $meta['participants'] }} {{ $uiTexts['participants'] }}</span>
                                     </div>
                                 </div>
 
@@ -1079,7 +1093,8 @@
             'title' => $info->title,
             'icon' => $info->icon,
             'content' => $info->description,
-            'color' => $info->color
+            'color' => $info->color,
+            'stat' => $info->stat ?? 'Lihat Selengkapnya', // Fallback for tab stat
         ];
     })->toArray();
 
@@ -1166,10 +1181,10 @@
         <div style="margin-bottom: 60px; text-align: center;" data-aos="fade-up" data-aos-delay="100">
             <div style="max-width: 800px; margin: 0 auto; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 30px;">
                 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px;">
-                    @if(!empty($homeSettings['youtube_video_id'] ?? null))
+                    @if(!empty($kenaliVideoId))
                         <iframe
                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 15px;"
-                            src="https://www.youtube.com/embed/{{ $homeSettings['youtube_video_id'] }}"
+                            src="https://www.youtube.com/embed/{{ $kenaliVideoId }}"
                             title="{{ $videoSettings['iframe_title'] }}"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1454,7 +1469,6 @@
 
 @php
     use App\Models\AlumniTestimonial;
-    use App\Models\AlumniStat;
     use App\Models\AlumniSetting;
 
     // Fetch layout style
@@ -1463,14 +1477,12 @@
     // Fetch active testimonials (max 10 for layout consistency)
     $alumniTestimonials = AlumniTestimonial::active()->take(10)->get();
 
-    // Fetch active stats (max 6 for layout consistency)
-    $alumniStats = AlumniStat::active()->take(6)->get()->toArray();
 
     // Section Header from settings
     $alumniHeader = [
         'icon' => AlumniSetting::getValue('section_icon', '🎓'),
-        'badge_text' => AlumniSetting::getValue('section_badge_text', 'IKATAN ALUMNI'),
-        'title' => AlumniSetting::getValue('section_title', 'IKATAN ALUMNI'),
+        'badge_text' => AlumniSetting::getValue('section_badge_text', 'KATA ALUMNI'),
+        'title' => AlumniSetting::getValue('section_title', 'KATA ALUMNI'),
         'title_highlight' => AlumniSetting::getValue('section_title_highlight', 'SISTEM INFORMASI'),
         'subtitle' => AlumniSetting::getValue('section_subtitle', 'Testimoni dari para alumni yang telah sukses berkarir di berbagai bidang')
     ];
@@ -1511,127 +1523,128 @@
 
     <div class="container" style="position: relative; z-index: 2;">
         @if($alumniLayoutStyle === 'current')
-        {{-- LAYOUT 1: Current Split Layout (Testimonials Left + Illustration Right) --}}
-        @if($alumniTestimonials->count() > 0)
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;" data-aos="fade-up">
-        @else
-        <div style="display: flex; justify-content: center; align-items: center;" data-aos="fade-up">
-        @endif
-            <!-- Left Side - Content -->
-            <div>
-                <div style="margin-bottom: 30px;">
-                    <div style="display: inline-flex; align-items: center; gap: 12px; padding: 12px 28px; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }} 0%, {{ $alumniAccentGradient['end'] }} 100%); border-radius: 25px; box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3); transform: rotate(-2deg);">
-                        <div style="font-size: 20px;">{{ $alumniHeader['icon'] }}</div>
-                        <span style="font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 1px;">{{ $alumniHeader['badge_text'] }}</span>
-                    </div>
+        {{-- LAYOUT 1: Full-Width Testimonial Carousel (Modern Design) --}}
+        <div data-aos="fade-up">
+            <!-- Section Header - Centered -->
+            <div style="text-align: center; margin-bottom: 60px;">
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 14px 32px; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }} 0%, {{ $alumniAccentGradient['end'] }} 100%); border-radius: 30px; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.25); margin-bottom: 28px;">
+                    <div style="font-size: 22px;">{{ $alumniHeader['icon'] }}</div>
+                    <span style="font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 1.5px;">{{ $alumniHeader['badge_text'] }}</span>
                 </div>
 
-                <h2 style="font-size: 48px; font-weight: 900; color: #1e293b; margin: 0 0 20px 0; line-height: 1.1;">
-                    <span style="background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ $alumniHeader['title'] }}</span><br>
-                    <span style="background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 52px;">{{ $alumniHeader['title_highlight'] }}</span>
+                <h2 style="font-size: 52px; font-weight: 900; color: #1e293b; margin: 0 0 18px 0; line-height: 1.1;">
+                    <span style="background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ $alumniHeader['title'] }}</span>
+                    <span style="background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"> {{ $alumniHeader['title_highlight'] }}</span>
                 </h2>
-
-                @if($alumniTestimonials->count() > 0)
-                <!-- Alumni Testimonials Scrollable Container -->
-                <div style="position: relative; height: 600px;">
-                    <!-- Navigation Buttons -->
-                    <button id="alumni-scroll-up" style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); z-index: 10; width: 40px; height: 40px; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); border: none; border-radius: 50%; color: #fff; font-size: 16px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-chevron-up"></i>
-                    </button>
-
-                    <button id="alumni-scroll-down" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); z-index: 10; width: 40px; height: 40px; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); border: none; border-radius: 50%; color: #fff; font-size: 16px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-
-                    <!-- Scrollable Container -->
-                    <div id="alumni-scroll-container" style="height: 100%; overflow-y: auto; overflow-x: hidden; border-radius: 20px; padding: 10px;">
-                        <div style="display: flex; flex-direction: column; gap: 15px;">
-                            @foreach($alumniTestimonials as $index => $alumni)
-                            @php
-                                $nameParts = explode(' ', $alumni->name);
-                                $initials = '';
-                                foreach($nameParts as $part) {
-                                    if(!empty($part)) {
-                                        $initials .= strtoupper(substr($part, 0, 1));
-                                        if(strlen($initials) >= 2) break;
-                                    }
-                                }
-                            @endphp
-                            <div style="background: {{ $alumniCardBg }}; backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid {{ $alumniCardBorder }}; transition: all 0.3s ease; position: relative; overflow: hidden;" class="alumni-card" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px;">
-                                        {{ $initials }}
-                                    </div>
-                                    <div style="flex: 1;">
-                                        <h4 style="font-size: 16px; font-weight: 700; color: #1e293b; margin: 0 0 3px 0;">{{ $alumni->name }}</h4>
-                                        <p style="font-size: 13px; color: #64748b; margin: 0;">{{ $alumni->position }} at {{ $alumni->company }}</p>
-                                    </div>
-                                    <div style="text-align: right;">
-                                        <div style="display: flex; gap: 2px;">
-                                            @for($i = 0; $i < $alumni->rating; $i++)
-                                            <i class="{{ $icons['star'] }}" style="color: {{ $alumniAccentColor }}; font-size: 10px;"></i>
-                                            @endfor
-                                        </div>
-                                    </div>
-                                </div>
-                                <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin: 12px 0 0 0; font-style: italic;">
-                                    "{{ $alumni->testimonial }}"
-                                </p>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Scroll Indicator -->
-                    <div style="position: absolute; right: -40px; top: 50%; transform: translateY(-50%); z-index: 10;">
-                        <div style="width: 4px; height: 100px; background: rgba(255,107,53,0.2); border-radius: 2px; position: relative;">
-                            <div id="scroll-progress" style="position: absolute; top: 0; left: 0; width: 100%; height: 30%; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 2px; transition: height 0.3s ease;"></div>
-                        </div>
-                    </div>
-                </div>
-                @else
-                <!-- Empty State Message for Admin -->
-                <div style="text-align: center; padding: 80px 40px;">
-                    <div style="background: rgba(255, 107, 53, 0.05); border: 2px dashed rgba(255, 107, 53, 0.2); border-radius: 25px; padding: 60px 40px; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden;">
-                        <!-- Background decoration -->
-                        <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255, 107, 53, 0.1); border-radius: 50%; opacity: 0.5;"></div>
-                        <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: rgba(255, 107, 53, 0.08); border-radius: 50%; opacity: 0.6;"></div>
-
-                        <!-- Content -->
-                        <div style="position: relative; z-index: 2;">
-                            <div style="font-size: 72px; margin-bottom: 25px; opacity: 0.8;">🎓</div>
-
-                            <div style="margin-bottom: 25px;">
-                                <div style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 20px; background: rgba(255, 107, 53, 0.15); border-radius: 20px; margin-bottom: 20px;">
-                                    <span style="font-size: 12px; font-weight: 700; color: {{ $alumniAccentColor }}; letter-spacing: 1px; text-transform: uppercase;">{{ $alumniHeader['badge_text'] }}</span>
-                                </div>
-
-                                <h3 style="font-size: 28px; font-weight: 800; color: #1e293b; margin: 0 0 15px 0; line-height: 1.2;">
-                                    <span style="background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Data Alumni</span><br>
-                                    <span style="color: #64748b; font-size: 24px;">Belum Tersedia</span>
-                                </h3>
-                            </div>
-
-                            <p style="font-size: 16px; color: #64748b; margin: 0 0 30px 0; line-height: 1.7; max-width: 450px; margin-left: auto; margin-right: auto;">
-                                Testimoni dan profil alumni {{ $alumniHeader['title_highlight'] }} belum ditambahkan oleh administrator. Section ini akan menampilkan cerita sukses para alumni setelah konten dikelola oleh admin.
-                            </p>
-
-                            <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
-                                <div style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); color: #fff; border-radius: 15px; font-size: 15px; font-weight: 600; box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    <span>Konten Dalam Pengembangan</span>
-                                </div>
-
-                                <p style="font-size: 14px; color: #94a3b8; margin: 0; font-style: italic;">
-                                    Hubungi administrator untuk menambahkan data alumni
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
+                <p style="font-size: 18px; color: #64748b; max-width: 600px; margin: 0 auto; line-height: 1.7;">{{ $alumniHeader['subtitle'] ?? 'Cerita sukses para alumni yang telah berkarir di berbagai perusahaan terkemuka' }}</p>
             </div>
 
+            @if($alumniTestimonials->count() > 0)
+            <!-- Full-Width Testimonial Carousel -->
+            <div style="position: relative; max-width: 900px; margin: 0 auto;">
+                
+                <!-- Large Quote Icon Background -->
+                <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 120px; color: {{ $alumniAccentGradient['start'] }}15; font-family: Georgia, serif; z-index: 0; pointer-events: none;">"</div>
+
+                <!-- Carousel Container -->
+                <div id="alumni-main-carousel" style="overflow: hidden; border-radius: 28px; position: relative;">
+                    <div id="alumni-main-track" style="display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);">
+                        @foreach($alumniTestimonials as $index => $alumni)
+                        @php
+                            $nameParts = explode(' ', $alumni->name);
+                            $initials = '';
+                            foreach($nameParts as $part) {
+                                if(!empty($part)) {
+                                    $initials .= strtoupper(substr($part, 0, 1));
+                                    if(strlen($initials) >= 2) break;
+                                }
+                            }
+                        @endphp
+                        <div class="alumni-main-slide" style="min-width: 100%; padding: 50px 60px; background: {{ $alumniCardBg }}; backdrop-filter: blur(20px); border: 1px solid {{ $alumniCardBorder }}; box-sizing: border-box;">
+                            
+                            <!-- Testimonial Content -->
+                            <div style="text-align: center; position: relative; z-index: 2;">
+                                
+                                <!-- Avatar -->
+                                <div style="width: 100px; height: 100px; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 15px 50px rgba(255, 107, 53, 0.3); border: 4px solid rgba(255,255,255,0.9);">
+                                    @if($alumni->photo)
+                                        <img src="{{ asset('storage/' . $alumni->photo) }}" alt="{{ $alumni->name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                    @else
+                                        <span style="color: #fff; font-weight: 800; font-size: 32px; letter-spacing: 1px;">{{ $initials }}</span>
+                                    @endif
+                                </div>
+
+                                <!-- Stars Rating -->
+                                <div style="display: flex; justify-content: center; gap: 6px; margin-bottom: 24px;">
+                                    @for($i = 0; $i < $alumni->rating; $i++)
+                                    <i class="{{ $icons['star'] }}" style="color: {{ $alumniAccentColor }}; font-size: 18px;"></i>
+                                    @endfor
+                                </div>
+
+                                <!-- Quote -->
+                                <p style="font-size: 22px; color: #374151; line-height: 1.8; margin: 0 0 32px 0; font-style: italic; max-width: 750px; margin-left: auto; margin-right: auto;">
+                                    "{{ $alumni->testimonial }}"
+                                </p>
+
+                                <!-- Author Info -->
+                                <div style="margin-top: 24px;">
+                                    <h4 style="font-size: 22px; font-weight: 800; color: #1e293b; margin: 0 0 8px 0;">{{ $alumni->name }}</h4>
+                                    <p style="font-size: 16px; margin: 0;">
+                                        <span style="color: {{ $alumniAccentColor }}; font-weight: 600;">{{ $alumni->position }}</span>
+                                        <span style="color: #94a3b8;"> di </span>
+                                        <span style="color: #64748b; font-weight: 600;">{{ $alumni->company }}</span>
+                                    </p>
+                                    @if($alumni->graduation_year)
+                                    <p style="font-size: 14px; color: #94a3b8; margin: 8px 0 0 0;">
+                                        <i class="fas fa-graduation-cap" style="margin-right: 6px;"></i>Alumni {{ $alumni->graduation_year }}
+                                    </p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button id="alumni-main-prev" style="position: absolute; left: -25px; top: 50%; transform: translateY(-50%); width: 55px; height: 55px; background: #fff; border: none; border-radius: 50%; color: {{ $alumniAccentColor }}; font-size: 20px; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 30px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; z-index: 10;" onmouseover="this.style.background='linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }})'; this.style.color='#fff'; this.style.transform='translateY(-50%) scale(1.1)';" onmouseout="this.style.background='#fff'; this.style.color='{{ $alumniAccentColor }}'; this.style.transform='translateY(-50%) scale(1)';">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="alumni-main-next" style="position: absolute; right: -25px; top: 50%; transform: translateY(-50%); width: 55px; height: 55px; background: #fff; border: none; border-radius: 50%; color: {{ $alumniAccentColor }}; font-size: 20px; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 30px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; z-index: 10;" onmouseover="this.style.background='linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }})'; this.style.color='#fff'; this.style.transform='translateY(-50%) scale(1.1)';" onmouseout="this.style.background='#fff'; this.style.color='{{ $alumniAccentColor }}'; this.style.transform='translateY(-50%) scale(1)';">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <!-- Dots Indicator -->
+                <div id="alumni-main-dots" style="display: flex; justify-content: center; gap: 10px; margin-top: 35px;" data-accent-color="{{ $alumniAccentColor }}">
+                    @foreach($alumniTestimonials as $index => $alumni)
+                    <button class="alumni-main-dot" data-index="{{ $index }}" style="width: {{ $index === 0 ? '32px' : '12px' }}; height: 12px; background: {{ $index === 0 ? $alumniAccentColor : 'rgba(0,0,0,0.15)' }}; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s;"></button>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="{{ $alumniCTA['link'] }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 18px 40px; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); color: #fff; text-decoration: none; border-radius: 14px; font-weight: 700; font-size: 16px; transition: all 0.3s; box-shadow: 0 10px 35px rgba(255, 107, 53, 0.3);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 45px rgba(255, 107, 53, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 35px rgba(255, 107, 53, 0.3)';">
+                    <span>{{ $alumniCTA['text'] }}</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            @else
+            <!-- Empty State -->
+            <div style="text-align: center; padding: 80px 40px;">
+                <div style="background: rgba(255, 107, 53, 0.05); border: 2px dashed rgba(255, 107, 53, 0.2); border-radius: 25px; padding: 60px 40px; max-width: 600px; margin: 0 auto; position: relative; overflow: hidden;">
+                    <div style="font-size: 72px; margin-bottom: 25px; opacity: 0.8;">🎓</div>
+                    <h3 style="font-size: 28px; font-weight: 800; color: #1e293b; margin: 0 0 15px 0;">
+                        <span style="background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Data Alumni</span><br>
+                        <span style="color: #64748b; font-size: 24px;">Belum Tersedia</span>
+                    </h3>
+                    <p style="font-size: 16px; color: #64748b; margin: 0; line-height: 1.7; max-width: 450px; margin: 0 auto;">
+                        Testimoni alumni akan ditampilkan di sini setelah ditambahkan oleh administrator.
+                    </p>
+                </div>
+            </div>
+            @endif
         </div>
 
         @elseif($alumniLayoutStyle === 'grid')
@@ -1789,22 +1802,6 @@
                 <p style="font-size: 18px; color: #64748b; max-width: 600px; margin: 0 auto;">{{ $alumniHeader['subtitle'] }}</p>
             </div>
 
-            <!-- Stats Row -->
-            @if(count($alumniStats) > 0)
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 60px;">
-                @foreach($alumniStats as $stat)
-                <div style="background: {{ $alumniCardBg }}; backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; border: 1px solid {{ $alumniCardBorder }}; text-align: center; transition: all 0.3s;" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 30px rgba(255, 107, 53, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                    <div style="font-size: 42px; font-weight: 900; background: linear-gradient(135deg, {{ $alumniAccentGradient['start'] }}, {{ $alumniAccentGradient['end'] }}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">
-                        {{ $stat['value'] ?? '0' }}
-                    </div>
-                    <div style="font-size: 14px; color: #64748b; font-weight: 600;">
-                        {{ $stat['label'] ?? 'Stat' }}
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @endif
-
             <!-- Testimonial Cards -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 50px;">
                 @foreach($alumniTestimonials as $index => $alumni)
@@ -1854,6 +1851,9 @@
         @endif
     </div>
 </section>
+
+{{-- Custom Sections from Homepage Builder - After Alumni Position --}}
+@include('frontend.partials.home.home-blocks', ['position' => 'after_alumni'])
 
 @php
     use App\Models\Setting as HomeSetting;
@@ -1968,14 +1968,17 @@
         $infoCardGradientStart = '#1a246a';
         $infoCardGradientEnd = '#3b82f6';
     }
+    
+    // Check if Info Card is properly configured
+    $infoCardIsConfigured = !empty($infoCardTitle) && !empty($infoCardSubtitle);
 @endphp
 
-<!-- Info Card - Dynamic (Generic for any information) -->
-<section style="padding: 80px 0; background: #ffffff;">
-    <div class="container" data-aos="fade-up">
-        @if($infoCardShow == '1')
-        {{-- Info Card is enabled, show the selected layout --}}
-        @if($infoCardLayoutStyle === 'current')
+@if($infoCardShow == '1')
+    @if($infoCardIsConfigured)
+    <!-- Info Card - Dynamic (Generic for any information) -->
+    <section style="padding: 80px 0; background: #ffffff;">
+        <div class="container" data-aos="fade-up">
+            @if($infoCardLayoutStyle === 'current')
         {{-- LAYOUT 1: Vibrant Gradient Card --}}
         <div style="background: linear-gradient(135deg, {{ $infoCardGradientStart }}15 0%, {{ $infoCardGradientEnd }}15 100%); border: 3px solid transparent; background-image: linear-gradient(white, white), linear-gradient(135deg, {{ $infoCardGradientStart }}, {{ $infoCardGradientEnd }}); background-origin: border-box; background-clip: padding-box, border-box; border-radius: 24px; padding: 50px; display: flex; justify-content: space-between; align-items: center; gap: 40px; box-shadow: 0 15px 50px rgba(0,0,0,0.12), 0 0 0 1px {{ $infoCardGradientStart }}20; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px) scale(1.01)'; this.style.boxShadow='0 25px 70px rgba(0,0,0,0.18), 0 0 0 1px {{ $infoCardGradientStart }}40';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 50px rgba(0,0,0,0.12), 0 0 0 1px {{ $infoCardGradientStart }}20';">
             <!-- Decorative Background Elements -->
@@ -2162,36 +2165,41 @@
             </div>
         </div>
         @endif
-        
-        @else
-        {{-- Info Card is disabled or not configured - Show Admin Placeholder --}}
-        <div style="text-align: center; padding: 60px 40px; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border: 2px dashed #cbd5e1; border-radius: 20px;">
-            <div style="max-width: 500px; margin: 0 auto;">
-                <!-- Icon -->
-                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #64748b, #475569); border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(100, 116, 139, 0.2);">
-                    <i class="fas fa-info-circle" style="font-size: 36px; color: #fff;"></i>
-                </div>
-                
-                <!-- Title -->
-                <h3 style="font-size: 24px; font-weight: 800; color: #1e293b; margin: 0 0 12px 0;">
-                    Informasi Penting Belum Tersedia
-                </h3>
-                
-                <!-- Description -->
-                <p style="font-size: 15px; color: #64748b; margin: 0 0 25px 0; line-height: 1.7;">
-                    Section informasi penting belum dikonfigurasi oleh administrator. Silakan hubungi admin untuk menambahkan konten pada bagian ini.
-                </p>
-                
-                <!-- Admin Badge -->
-                <div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: rgba(100, 116, 139, 0.1); border: 1px solid rgba(100, 116, 139, 0.2); border-radius: 25px;">
-                    <i class="fas fa-user-shield" style="font-size: 12px; color: #64748b;"></i>
-                    <span style="font-size: 13px; font-weight: 600; color: #64748b;">Admin Configuration Required</span>
+    </div>
+</section>
+
+    @else
+    {{-- Info Card is enabled but not configured - Show Admin Placeholder --}}
+    <section style="padding: 80px 0; background: #ffffff;">
+        <div class="container" data-aos="fade-up">
+            <div style="text-align: center; padding: 60px 40px; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border: 2px dashed #cbd5e1; border-radius: 20px;">
+                <div style="max-width: 500px; margin: 0 auto;">
+                    <!-- Icon -->
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #64748b, #475569); border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(100, 116, 139, 0.2);">
+                        <i class="fas fa-info-circle" style="font-size: 36px; color: #fff;"></i>
+                    </div>
+                    
+                    <!-- Title -->
+                    <h3 style="font-size: 24px; font-weight: 800; color: #1e293b; margin: 0 0 12px 0;">
+                        Informasi Penting Belum Dikonfigurasi
+                    </h3>
+                    
+                    <!-- Description -->
+                    <p style="font-size: 15px; color: #64748b; margin: 0 0 25px 0; line-height: 1.7;">
+                        Section ini sudah diaktifkan, namun belum memiliki konten. Silakan lengkapi pengaturan melalui panel admin.
+                    </p>
+                    
+                    <!-- Admin Badge -->
+                    <div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: rgba(100, 116, 139, 0.1); border: 1px solid rgba(100, 116, 139, 0.2); border-radius: 25px;">
+                        <i class="fas fa-user-shield" style="font-size: 12px; color: #64748b;"></i>
+                        <span style="font-size: 13px; font-weight: 600; color: #64748b;">Admin Configuration Required</span>
+                    </div>
                 </div>
             </div>
         </div>
-        @endif
-    </div>
-</section>
+    </section>
+    @endif
+@endif
 
 <!-- CSS Animation for Info Card -->
 <style>
@@ -2320,11 +2328,15 @@
         $ctaFeature3Description = 'Jaringan alumni dan peluang kerja luas';
         $ctaFeaturesShow = '1';
     }
+    
+    // Check if CTA is properly configured (has essential content)
+    $ctaIsConfigured = !empty($ctaTitle) && !empty($ctaSubtitle);
 @endphp
 
 @if($ctaShow == '1')
-{{-- CTA Section - Dynamic Layout --}}
-<section style="padding: 120px 0; background: linear-gradient(135deg, {{ $ctaBgGradientStart }} 0%, {{ $ctaBgGradientMid }} 50%, {{ $ctaBgGradientEnd }} 100%); color: #fff; text-align: center; position: relative; overflow: hidden;">
+    @if($ctaIsConfigured)
+    {{-- CTA Section - Dynamic Layout --}}
+    <section style="padding: 120px 0; background: linear-gradient(135deg, {{ $ctaBgGradientStart }} 0%, {{ $ctaBgGradientMid }} 50%, {{ $ctaBgGradientEnd }} 100%); color: #fff; text-align: center; position: relative; overflow: hidden;">
     <!-- Animated Background Elements -->
     <div style="position: absolute; top: -150px; right: -150px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%); border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
     <div style="position: absolute; bottom: -200px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%); border-radius: 50%; animation: float 8s ease-in-out infinite reverse;"></div>
@@ -2584,39 +2596,44 @@
     </style>
 </section>
 
-@else
-{{-- CTA is disabled or not configured - Show Admin Placeholder --}}
-<section style="padding: 120px 0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #fff; position: relative; overflow: hidden;">
-    <!-- Subtle Background Elements -->
-    <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(251, 191, 36, 0.05) 0%, transparent 70%); border-radius: 50%;"></div>
-    <div style="position: absolute; bottom: -120px; left: -120px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%); border-radius: 50%;"></div>
-    
-    <div class="container" style="position: relative; z-index: 2;" data-aos="fade-up">
-        <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-            <!-- Icon -->
-            <div style="width: 90px; height: 90px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.2); border-radius: 22px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 30px;">
-                <i class="fas fa-bullhorn" style="font-size: 40px; color: rgba(255,255,255,0.7);"></i>
-            </div>
-            
-            <!-- Title -->
-            <h2 style="font-size: 32px; font-weight: 900; color: #fff; margin: 0 0 15px 0; line-height: 1.2;">
-                Call-to-Action Belum Dikonfigurasi
-            </h2>
-            
-            <!-- Description -->
-            <p style="font-size: 17px; color: rgba(255,255,255,0.75); margin: 0 0 35px 0; line-height: 1.7;">
-                Section CTA (Call-to-Action) belum diatur oleh administrator. Hubungi admin untuk mengaktifkan dan mengonfigurasi bagian ini agar dapat menampilkan ajakan bertindak kepada pengunjung.
-            </p>
-            
-            <!-- Admin Badge -->
-            <div style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px;">
-                <i class="fas fa-tools" style="font-size: 14px; color: rgba(251,191,36,0.9);"></i>
-                <span style="font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.9); letter-spacing: 0.5px;">Setup Required by Admin</span>
+    @else
+    {{-- CTA is enabled but not configured - Show Admin Placeholder --}}
+    <section style="padding: 120px 0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #fff; position: relative; overflow: hidden;">
+        <!-- Subtle Background Elements -->
+        <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(251, 191, 36, 0.05) 0%, transparent 70%); border-radius: 50%;"></div>
+        <div style="position: absolute; bottom: -120px; left: -120px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%); border-radius: 50%;"></div>
+        
+        <div class="container" style="position: relative; z-index: 2;" data-aos="fade-up">
+            <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <!-- Icon -->
+                <div style="width: 90px; height: 90px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.2); border-radius: 22px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+                    <i class="fas fa-bullhorn" style="font-size: 40px; color: rgba(255,255,255,0.7);"></i>
+                </div>
+                
+                <!-- Title -->
+                <h2 style="font-size: 32px; font-weight: 900; color: #fff; margin: 0 0 15px 0; line-height: 1.2;">
+                    Call-to-Action Belum Dikonfigurasi
+                </h2>
+                
+                <!-- Description -->
+                <p style="font-size: 17px; color: rgba(255,255,255,0.75); margin: 0 0 35px 0; line-height: 1.7;">
+                    Section CTA sudah diaktifkan, namun belum memiliki konten. Silakan lengkapi pengaturan CTA melalui panel admin.
+                </p>
+                
+                <!-- Admin Badge -->
+                <div style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px;">
+                    <i class="fas fa-tools" style="font-size: 14px; color: rgba(251,191,36,0.9);"></i>
+                    <span style="font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.9); letter-spacing: 0.5px;">Setup Required by Admin</span>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    @endif
 @endif
+{{-- CTA is disabled - Don't show anything --}}
+
+{{-- Custom Sections from Homepage Builder - Before Footer Position --}}
+@include('frontend.partials.home.home-blocks', ['position' => 'before_footer'])
 
 @php
     // Fetch footer settings
@@ -2639,6 +2656,13 @@
             'quicklinks_title' => App\Models\Setting::where('key', 'footer_quicklinks_title')->value('value') ?? 'QUICK LINKS',
             'contact_title' => App\Models\Setting::where('key', 'footer_contact_title')->value('value') ?? 'CONTACT',
             'copyright_text' => App\Models\Setting::where('key', 'footer_copyright_text')->value('value') ?? 'All Rights Reserved',
+            'hours_title' => App\Models\Setting::where('key', 'footer_hours_title')->value('value') ?? 'JAM OPERASIONAL',
+            'hours_weekday_label' => App\Models\Setting::where('key', 'footer_hours_weekday_label')->value('value') ?? 'Senin - Jumat',
+            'hours_weekday_time' => App\Models\Setting::where('key', 'footer_hours_weekday_time')->value('value') ?? '08:00 - 16:00 WIB',
+            'hours_saturday_label' => App\Models\Setting::where('key', 'footer_hours_saturday_label')->value('value') ?? 'Sabtu',
+            'hours_saturday_time' => App\Models\Setting::where('key', 'footer_hours_saturday_time')->value('value') ?? '08:00 - 12:00 WIB',
+            'hours_holiday_label' => App\Models\Setting::where('key', 'footer_hours_holiday_label')->value('value') ?? 'Minggu & Hari Libur',
+            'hours_holiday_time' => App\Models\Setting::where('key', 'footer_hours_holiday_time')->value('value') ?? 'Tutup',
         ];
 
         $footerColors = [
@@ -2828,21 +2852,35 @@
                 </ul>
             </div>
 
-            <!-- Subscribe Section -->
+            <!-- Jam Operasional Section -->
             <div>
                 <h4 style="font-size: 16px; font-weight: 600; margin: 0 0 20px 0; color: {{ $footerColors['heading_color'] }}; text-transform: uppercase; letter-spacing: 2px; position: relative;">
-                    {{ $footerSettings['subscribe_title'] }}
+                    {{ $footerSettings['hours_title'] }}
                     <div style="position: absolute; bottom: -8px; left: 0; width: 30px; height: 3px; background: linear-gradient(135deg, {{ $footerColors['bg_gradient_mid'] }}, {{ $footerColors['accent_color'] }}); border-radius: 2px;"></div>
                 </h4>
-                <p style="color: {{ $footerColors['text_color'] }}; font-size: 13px; line-height: 1.6; margin: 15px 0 20px 0;">
-                    {{ $footerSettings['subscribe_text'] }}
-                </p>
-                <form style="display: flex; flex-direction: column; gap: 12px;">
-                    <input type="email" placeholder="{{ $footerSettings['subscribe_placeholder'] }}" style="width: 100%; padding: 12px 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: {{ $footerColors['heading_color'] }}; font-size: 13px; outline: none; box-sizing: border-box; backdrop-filter: blur(10px);">
-                    <button type="submit" style="width: 100%; padding: 12px; background: linear-gradient(135deg, {{ $footerColors['bg_gradient_mid'] }}, {{ $footerColors['accent_color'] }}); color: {{ $footerColors['heading_color'] }}; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(240, 147, 251, 0.3);">
-                        {{ $footerSettings['subscribe_button'] }}
-                    </button>
-                </form>
+                <ul style="list-style: none; padding: 0; margin: 15px 0 0 0;">
+                    <li style="margin-bottom: 14px; display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-clock" style="color: {{ $footerColors['accent_color'] }}; font-size: 14px;"></i>
+                        <div>
+                            <span style="color: {{ $footerColors['heading_color'] }}; font-size: 13px; font-weight: 600;">{{ $footerSettings['hours_weekday_label'] }}</span>
+                            <span style="color: {{ $footerColors['text_color'] }}; font-size: 13px; display: block;">{{ $footerSettings['hours_weekday_time'] }}</span>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 14px; display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-clock" style="color: {{ $footerColors['accent_color'] }}; font-size: 14px;"></i>
+                        <div>
+                            <span style="color: {{ $footerColors['heading_color'] }}; font-size: 13px; font-weight: 600;">{{ $footerSettings['hours_saturday_label'] }}</span>
+                            <span style="color: {{ $footerColors['text_color'] }}; font-size: 13px; display: block;">{{ $footerSettings['hours_saturday_time'] }}</span>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-calendar-times" style="color: {{ $footerColors['accent_color'] }}; font-size: 14px;"></i>
+                        <div>
+                            <span style="color: {{ $footerColors['heading_color'] }}; font-size: 13px; font-weight: 600;">{{ $footerSettings['hours_holiday_label'] }}</span>
+                            <span style="color: {{ $footerColors['text_color'] }}; font-size: 13px; display: block;">{{ $footerSettings['hours_holiday_time'] }}</span>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
         </div>

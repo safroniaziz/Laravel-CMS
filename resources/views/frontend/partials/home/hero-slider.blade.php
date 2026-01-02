@@ -128,7 +128,7 @@
 
                                         @if($slider->image)
                                             <div style="position: relative; width: 100%; height: 100%; border-radius: 24px; overflow: hidden; box-shadow: 0 25px 70px rgba(0,0,0,0.5); transform: rotate(0deg); transition: transform 0.5s; z-index: 1;" class="hero-image">
-                                                <img src="{{ $slider->image }}" alt="{{ $slider->title }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.5s;">
+                                                <img src="{{ str_starts_with($slider->image, 'http') ? $slider->image : asset('storage/' . $slider->image) }}" alt="{{ $slider->title }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.5s;">
 
                                                 {{-- Gradient Overlay --}}
                                                 <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(30, 58, 138, 0.15), rgba(249, 115, 22, 0.15)); pointer-events: none;"></div>
@@ -142,16 +142,16 @@
                                             </div>
                                         @endif
 
-                                        {{-- Floating Badge (Dynamic from Database) --}}
-                                        @if($heroBadge['show'] == '1')
+                                        {{-- Floating Badge (Per-Slider from Database) --}}
+                                        @if($slider->badge_show !== false && $slider->badge_show !== 0 && $slider->badge_show !== '0')
                                         <div style="position: absolute; {{ $slider->image_position === 'left' ? 'left: -20px;' : 'right: -20px;' }} bottom: 40px; background: #fff; padding: 20px 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 2;" data-aos="zoom-in" data-aos-delay="600">
                                             <div style="display: flex; align-items: center; gap: 12px;">
                                                 <div style="width: 50px; height: 50px; background: linear-gradient(135deg, {{ $heroColors['accent'] }}, {{ $heroColors['secondary'] }}); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                                                     <i class="{{ $icons['star'] }}" style="color: #fff; font-size: 24px;"></i>
                                                 </div>
                                                 <div>
-                                                    <div style="font-size: 20px; font-weight: 900; color: {{ $heroColors['primary'] }}; line-height: 1;">{{ $heroBadge['text'] }}</div>
-                                                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;">{{ $heroBadge['subtext'] }}</div>
+                                                    <div style="font-size: 20px; font-weight: 900; color: {{ $heroColors['primary'] }}; line-height: 1;">{{ $slider->badge_text ?? $heroBadge['text'] }}</div>
+                                                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;">{{ $slider->badge_subtext ?? $heroBadge['subtext'] }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -163,7 +163,7 @@
                     </div>
                     @elseif($heroLayoutStyle === 'centered')
                     {{-- LAYOUT 2: Centered Layout --}}
-                    <div class="hero-slide" style="min-width: 100%; height: calc(100vh - 80px); background: linear-gradient(135deg, {{ $heroColors['gradient_start'] }} 0%, {{ $heroColors['gradient_mid'] }} 50%, {{ $heroColors['gradient_end'] }} 100%); position: relative; display: flex; align-items: center; justify-content: center; text-align: center;">
+                    <div class="hero-slide" style="min-width: 100%; min-height: calc(100vh - 80px); height: auto; padding: 50px 0; background: linear-gradient(135deg, {{ $heroColors['gradient_start'] }} 0%, {{ $heroColors['gradient_mid'] }} 50%, {{ $heroColors['gradient_end'] }} 100%); position: relative; display: flex; align-items: center; justify-content: center; text-align: center;">
                         <div class="container" style="position: relative; z-index: 2;">
                             <div style="max-width: 800px; margin: 0 auto;">
                                 @if($slider->subtitle)
@@ -187,15 +187,21 @@
                                     <div style="display: flex; gap: 15px; align-items: center; justify-content: center;">
                                         <a href="{{ $slider->button_link }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 18px 40px; background: linear-gradient(135deg, {{ $heroColors['accent'] }}, {{ $heroColors['secondary'] }}); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 16px; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3); transition: all 0.3s;">
                                             <span>{{ $slider->button_text }}</span>
-                                            <i class="fas fa-arrow-right" style="transition: transform 0.3s;"></i>
+                                            <i class="{{ $icons['arrow_right'] }}" style="transition: transform 0.3s;"></i>
                                         </a>
+                                        @if($heroSecondaryButton['show'] == '1')
+                                        <a href="{{ $heroSecondaryButton['link'] }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 18px 35px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 16px; border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s;">
+                                            <span>{{ $heroSecondaryButton['text'] }}</span>
+                                            <i class="{{ $icons['arrow_right'] }}" style="transition: transform 0.3s;"></i>
+                                        </a>
+                                        @endif
                                     </div>
                                 @endif
 
                                 @if($slider->image)
                                 <div style="margin-top: 60px; max-width: 600px; margin-left: auto; margin-right: auto;">
                                     <div style="position: relative; width: 100%; padding-bottom: 60%; border-radius: 24px; overflow: hidden; box-shadow: 0 25px 70px rgba(0,0,0,0.5);">
-                                        <img src="{{ $slider->image }}" alt="{{ $slider->title }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                                        <img src="{{ str_starts_with($slider->image, 'http') ? $slider->image : asset('storage/' . $slider->image) }}" alt="{{ $slider->title }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                                     </div>
                                 </div>
                                 @endif
@@ -224,21 +230,29 @@
                                 @endif
 
                                 @if($slider->button_text && $slider->button_link)
-                                    <a href="{{ $slider->button_link }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 36px; background: {{ $heroColors['accent'] }}; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; transition: all 0.3s;">
-                                        <span>{{ $slider->button_text }}</span>
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
+                                    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                                        <a href="{{ $slider->button_link }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 36px; background: {{ $heroColors['accent'] }}; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; transition: all 0.3s;">
+                                            <span>{{ $slider->button_text }}</span>
+                                            <i class="{{ $icons['arrow_right'] }}"></i>
+                                        </a>
+                                        @if($heroSecondaryButton['show'] == '1')
+                                        <a href="{{ $heroSecondaryButton['link'] }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 30px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s;">
+                                            <span>{{ $heroSecondaryButton['text'] }}</span>
+                                            <i class="{{ $icons['arrow_right'] }}"></i>
+                                        </a>
+                                        @endif
+                                    </div>
                                 @endif
                             </div>
                         </div>
                     </div>
                     @elseif($heroLayoutStyle === 'fullscreen')
                     {{-- LAYOUT 4: Fullscreen Layout --}}
-                    <div class="hero-slide" style="min-width: 100%; height: 100vh; position: relative; overflow: hidden;">
+                    <div class="hero-slide" style="min-width: 100%; min-height: calc(100vh - 80px); position: relative; overflow: hidden; display: flex; align-items: center;">
                         @if($slider->image)
                         <div style="position: absolute; inset: 0; z-index: 0;">
-                            <img src="{{ $slider->image }}" alt="{{ $slider->title }}" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, {{ $heroColors['gradient_start'] }}dd, {{ $heroColors['gradient_end'] }}dd);"></div>
+                            <img src="{{ str_starts_with($slider->image, 'http') ? $slider->image : asset('storage/' . $slider->image) }}" alt="{{ $slider->title }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, {{ $heroColors['gradient_start'] }}85, {{ $heroColors['gradient_end'] }}85);"></div>
                         </div>
                         @else
                         <div style="position: absolute; inset: 0; background: linear-gradient(135deg, {{ $heroColors['gradient_start'] }}, {{ $heroColors['gradient_end'] }}); z-index: 0;"></div>
@@ -264,10 +278,18 @@
                                 @endif
 
                                 @if($slider->button_text && $slider->button_link)
-                                    <a href="{{ $slider->button_link }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 20px 45px; background: linear-gradient(135deg, {{ $heroColors['accent'] }}, {{ $heroColors['secondary'] }}); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 18px; box-shadow: 0 15px 40px rgba(251, 191, 36, 0.4); transition: all 0.3s;">
-                                        <span>{{ $slider->button_text }}</span>
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
+                                    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                                        <a href="{{ $slider->button_link }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 20px 45px; background: linear-gradient(135deg, {{ $heroColors['accent'] }}, {{ $heroColors['secondary'] }}); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 18px; box-shadow: 0 15px 40px rgba(251, 191, 36, 0.4); transition: all 0.3s;">
+                                            <span>{{ $slider->button_text }}</span>
+                                            <i class="{{ $icons['arrow_right'] }}"></i>
+                                        </a>
+                                        @if($heroSecondaryButton['show'] == '1')
+                                        <a href="{{ $heroSecondaryButton['link'] }}" style="display: inline-flex; align-items: center; gap: 12px; padding: 20px 40px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 18px; border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s;">
+                                            <span>{{ $heroSecondaryButton['text'] }}</span>
+                                            <i class="{{ $icons['arrow_right'] }}"></i>
+                                        </a>
+                                        @endif
+                                    </div>
                                 @endif
                             </div>
                         </div>

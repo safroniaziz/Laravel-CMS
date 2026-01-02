@@ -27,11 +27,14 @@ class FooterSettingSeeder extends Seeder
             ['key' => 'footer_email', 'value' => 'si@unib.ac.id'],
             ['key' => 'footer_website', 'value' => 'si.unib.ac.id'],
             
-            // Subscribe Section
-            ['key' => 'footer_subscribe_title', 'value' => 'SUBSCRIBE'],
-            ['key' => 'footer_subscribe_text', 'value' => 'Get the latest updates and news from our Information Systems program'],
-            ['key' => 'footer_subscribe_placeholder', 'value' => 'Email address'],
-            ['key' => 'footer_subscribe_button', 'value' => 'Subscribe Now'],
+            // Operating Hours / Jam Operasional
+            ['key' => 'footer_hours_title', 'value' => 'JAM OPERASIONAL'],
+            ['key' => 'footer_hours_weekday_label', 'value' => 'Senin - Jumat'],
+            ['key' => 'footer_hours_weekday_time', 'value' => '08:00 - 16:00 WIB'],
+            ['key' => 'footer_hours_saturday_label', 'value' => 'Sabtu'],
+            ['key' => 'footer_hours_saturday_time', 'value' => '08:00 - 12:00 WIB'],
+            ['key' => 'footer_hours_holiday_label', 'value' => 'Minggu & Hari Libur'],
+            ['key' => 'footer_hours_holiday_time', 'value' => 'Tutup'],
             
             // Section Titles
             ['key' => 'footer_quicklinks_title', 'value' => 'QUICK LINKS'],
