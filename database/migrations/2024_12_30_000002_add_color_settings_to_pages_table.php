@@ -9,10 +9,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            // Per-page color settings
-            $table->string('bg_color')->default('#ffffff')->after('layout');
-            $table->string('text_color')->default('#333333')->after('bg_color');
-            $table->string('accent_color')->default('#1e3a8a')->after('text_color');
+            // Per-page color settings - only add if not exists
+            if (!Schema::hasColumn('pages', 'bg_color')) {
+                $table->string('bg_color')->default('#ffffff')->after('layout');
+            }
+            if (!Schema::hasColumn('pages', 'text_color')) {
+                $table->string('text_color')->default('#333333')->after('bg_color');
+            }
+            if (!Schema::hasColumn('pages', 'accent_color')) {
+                $table->string('accent_color')->default('#1e3a8a')->after('text_color');
+            }
         });
     }
 
