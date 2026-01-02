@@ -9,12 +9,24 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->nullable()->after('email')->constrained();
-            $table->string('phone')->nullable()->after('email');
-            $table->text('bio')->nullable();
-            $table->string('avatar')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->string('locale')->default('id');
+            if (!Schema::hasColumn('users', 'role_id')) {
+                $table->foreignId('role_id')->nullable()->after('email')->constrained();
+            }
+            if (!Schema::hasColumn('users', 'phone')) {
+                $table->string('phone')->nullable()->after('email');
+            }
+            if (!Schema::hasColumn('users', 'bio')) {
+                $table->text('bio')->nullable();
+            }
+            if (!Schema::hasColumn('users', 'avatar')) {
+                $table->string('avatar')->nullable();
+            }
+            if (!Schema::hasColumn('users', 'is_active')) {
+                $table->boolean('is_active')->default(true);
+            }
+            if (!Schema::hasColumn('users', 'locale')) {
+                $table->string('locale')->default('id');
+            }
         });
     }
 

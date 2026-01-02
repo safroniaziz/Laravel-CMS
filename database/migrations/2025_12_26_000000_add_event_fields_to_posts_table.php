@@ -12,10 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->string('event_location')->nullable()->after('views');
-            $table->enum('event_status', ['open', 'ongoing', 'completed'])->default('open')->after('event_location');
-            $table->integer('event_participants')->default(0)->after('event_status');
-            $table->string('event_cta_type')->default('detail')->after('event_participants'); // register, detail, download
+            if (!Schema::hasColumn('posts', 'event_location')) {
+                $table->string('event_location')->nullable()->after('views');
+            }
+            if (!Schema::hasColumn('posts', 'event_status')) {
+                $table->enum('event_status', ['open', 'ongoing', 'completed'])->default('open')->after('event_location');
+            }
+            if (!Schema::hasColumn('posts', 'event_participants')) {
+                $table->integer('event_participants')->default(0)->after('event_status');
+            }
+            if (!Schema::hasColumn('posts', 'event_cta_type')) {
+                $table->string('event_cta_type')->default('detail')->after('event_participants');
+            }
         });
     }
 

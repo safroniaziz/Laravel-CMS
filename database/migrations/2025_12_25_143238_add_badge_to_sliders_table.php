@@ -9,9 +9,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sliders', function (Blueprint $table) {
-            $table->string('badge_text')->nullable()->after('image_position');
-            $table->string('badge_subtext')->nullable()->after('badge_text');
-            $table->boolean('badge_show')->default(true)->after('badge_subtext');
+            if (!Schema::hasColumn('sliders', 'badge_text')) {
+                $table->string('badge_text')->nullable()->after('image_position');
+            }
+            if (!Schema::hasColumn('sliders', 'badge_subtext')) {
+                $table->string('badge_subtext')->nullable()->after('badge_text');
+            }
+            if (!Schema::hasColumn('sliders', 'badge_show')) {
+                $table->boolean('badge_show')->default(true)->after('badge_subtext');
+            }
         });
     }
 
