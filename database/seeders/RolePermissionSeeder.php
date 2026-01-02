@@ -110,8 +110,8 @@ class RolePermissionSeeder extends Seeder
         // Assign all permissions to Superadmin
         $superadmin->permissions()->sync(Permission::all());
 
-        // Admin permissions (everything except roles, permissions, backup)
-        $adminPermissions = Permission::whereNotIn('group', ['roles', 'permissions', 'backup'])->get();
+        // Admin permissions (everything except backup)
+        $adminPermissions = Permission::whereNotIn('group', ['backup'])->get();
         $admin->permissions()->sync($adminPermissions);
 
         // Editor permissions (content management)

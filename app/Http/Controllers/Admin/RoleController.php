@@ -45,7 +45,7 @@ class RoleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Role created successfully',
-            'redirect' => route('admin.roles.index')
+            'redirect' => route('roles.index')
         ]);
     }
 
@@ -79,7 +79,7 @@ class RoleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Role updated successfully',
-            'redirect' => route('admin.roles.index')
+            'redirect' => route('roles.index')
         ]);
     }
 

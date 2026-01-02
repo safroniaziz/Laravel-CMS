@@ -18,11 +18,26 @@ class CheckPermission
             return redirect()->route('login');
         }
 
-        if (!Auth::user()->hasPermission($permission)) {
-            abort(403, 'Unauthorized action.');
+        $user = Auth::user();
+
+        // Superadmin bypass all permissions
+        if ($user->isSuperadmin()) {
+            return $next($request);
+        }
+
+        if (!$user->hasPermission($permission)) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki izin untuk aksi ini.'
+                ], 403);
+            }
+            
+            abort(403, 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
 
         return $next($request);
     }
 }
+
 

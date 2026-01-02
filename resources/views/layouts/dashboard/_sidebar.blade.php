@@ -58,17 +58,10 @@
             <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-3 mx-3" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
                 <!--begin::Menu-->
                 <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
-                    <!--begin:Menu item-->
-                    <div class="menu-item ">
-                        <!--begin:Menu content-->
-                        <div class="menu-content">
-                            <span class="menu-heading fw-bold text-uppercase fs-7">MAIN MENU</span>
-                        </div>
-                        <!--end:Menu content-->
-                    </div>
-                    <!--end:Menu item-->
                     
-                    <!--begin:Menu item - Dashboard-->
+                    <!--======================================-->
+                    <!--           DASHBOARD SECTION          -->
+                    <!--======================================-->
                     <div class="menu-item {{ Route::is('dashboard') ? 'show' : '' }}">
                         <a class="menu-link {{ Route::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                             <span class="menu-icon">
@@ -77,47 +70,17 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </div>
-                    <!--end:Menu item-->
 
-                    <!--begin:Menu heading - Content-->
+                    <!--======================================-->
+                    <!--            KONTEN SECTION            -->
+                    <!--======================================-->
                     <div class="menu-item pt-5">
                         <div class="menu-content">
-                            <span class="menu-heading fw-bold text-uppercase fs-7">CONTENT</span>
+                            <span class="menu-heading fw-bold text-uppercase fs-7">Konten</span>
                         </div>
                     </div>
-                    <!--end:Menu heading-->
 
-                    <!--begin:Menu item - Pages-->
-                    <div class="menu-item {{ Route::is('pages.*') ? 'show' : '' }}">
-                        <a class="menu-link {{ Route::is('pages.*') ? 'active' : '' }}" href="{{ route('pages.index') }}">
-                            <span class="menu-icon">
-                                <i class="fas fa-file-alt fs-4"></i>
-                            </span>
-                            <span class="menu-title">Pages</span>
-                        </a>
-                    </div>
-
-                    <!--begin:Menu item - Media-->
-                    <div class="menu-item {{ Route::is('media.*','galleries.*') ? 'show' : '' }}">
-                        <a class="menu-link {{ Route::is('media.*','galleries.*') ? 'active' : '' }}" href="{{ route('media.index') }}">
-                            <span class="menu-icon">
-                                <i class="fas fa-images fs-4"></i>
-                            </span>
-                            <span class="menu-title">Media & Gallery</span>
-                        </a>
-                    </div>
-
-                    <!--begin:Menu item - Menus-->
-                    <div class="menu-item {{ Route::is('menus.*') ? 'show' : '' }}">
-                        <a class="menu-link {{ Route::is('menus.*') ? 'active' : '' }}" href="{{ route('menus.index') }}">
-                            <span class="menu-icon">
-                                <i class="fas fa-bars fs-4"></i>
-                            </span>
-                            <span class="menu-title">Menus</span>
-                        </a>
-                    </div>
-
-                    <!--begin:Menu item - Posts-->
+                    <!-- Posts -->
                     <div class="menu-item {{ Route::is('posts.*') ? 'show' : '' }}">
                         <a class="menu-link {{ Route::is('posts.*') ? 'active' : '' }}" href="{{ route('posts.index') }}">
                             <span class="menu-icon">
@@ -127,17 +90,17 @@
                         </a>
                     </div>
 
-                    <!--begin:Menu item - Categories-->
+                    <!-- Categories -->
                     <div class="menu-item {{ Route::is('categories.*') ? 'show' : '' }}">
                         <a class="menu-link {{ Route::is('categories.*') ? 'active' : '' }}" href="{{ route('categories.index') }}">
                             <span class="menu-icon">
                                 <i class="fas fa-folder fs-4"></i>
                             </span>
-                            <span class="menu-title">Categories</span>
+                            <span class="menu-title">Kategori</span>
                         </a>
                     </div>
 
-                    <!--begin:Menu item - Tags-->
+                    <!-- Tags -->
                     <div class="menu-item {{ Route::is('tags.*') ? 'show' : '' }}">
                         <a class="menu-link {{ Route::is('tags.*') ? 'active' : '' }}" href="{{ route('tags.index') }}">
                             <span class="menu-icon">
@@ -147,67 +110,102 @@
                         </a>
                     </div>
 
-                    <!--begin:Menu item - Blog Settings (Dropdown)-->
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::is('blog.settings.*') ? 'show' : '' }}">
+                    <!-- Pages -->
+                    <div class="menu-item {{ Route::is('pages.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('pages.*') ? 'active' : '' }}" href="{{ route('pages.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-file-alt fs-4"></i>
+                            </span>
+                            <span class="menu-title">Halaman</span>
+                        </a>
+                    </div>
+
+                    <!-- Media -->
+                    <div class="menu-item {{ Route::is('media.*','galleries.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('media.*','galleries.*') ? 'active' : '' }}" href="{{ route('media.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-images fs-4"></i>
+                            </span>
+                            <span class="menu-title">Media & Galeri</span>
+                        </a>
+                    </div>
+
+                    <!-- Teachers -->
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::is('admin.teachers.*', 'admin.teacher-settings.*') ? 'show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
-                                <i class="fas fa-cogs fs-4"></i>
+                                <i class="fas fa-user-tie fs-4"></i>
                             </span>
-                            <span class="menu-title">Blog Settings</span>
+                            <span class="menu-title">Dosen</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Route::is('blog.settings.index') ? 'active' : '' }}" href="{{ route('blog.settings.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Index Page</span>
+                                <a class="menu-link {{ Route::is('admin.teachers.index') ? 'active' : '' }}" href="{{ route('admin.teachers.index') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Semua Dosen</span>
                                 </a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link {{ Route::is('blog.settings.detail') ? 'active' : '' }}" href="{{ route('blog.settings.detail') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Detail Page</span>
+                                <a class="menu-link {{ Route::is('admin.teacher-settings.index') ? 'active' : '' }}" href="{{ route('admin.teacher-settings.index') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Pengaturan</span>
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    <!--begin:Menu item - Home Settings (Dropdown)-->
+                    <!--======================================-->
+                    <!--           TAMPILAN SECTION           -->
+                    <!--======================================-->
+                    <div class="menu-item pt-5">
+                        <div class="menu-content">
+                            <span class="menu-heading fw-bold text-uppercase fs-7">Tampilan</span>
+                        </div>
+                    </div>
+
+                    <!-- Menus -->
+                    <div class="menu-item {{ Route::is('menus.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('menus.*') ? 'active' : '' }}" href="{{ route('menus.index') }}">
+                            <span class="menu-icon">
+                                <i class="fas fa-bars fs-4"></i>
+                            </span>
+                            <span class="menu-title">Menu Navigasi</span>
+                        </a>
+                    </div>
+
+                    <!-- Home Settings -->
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::is('home-settings.*', 'admin.sliders.*') ? 'show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <i class="fas fa-home fs-4"></i>
                             </span>
-                            <span class="menu-title">Home Settings</span>
+                            <span class="menu-title">Beranda</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
                                 <a class="menu-link {{ Route::is('admin.sliders.*') ? 'active' : '' }}" href="{{ route('admin.sliders.index') }}">
                                     <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                    <span class="menu-title">Slider Images</span>
+                                    <span class="menu-title">Slider</span>
                                 </a>
                             </div>
                             <div class="menu-item">
                                 <a class="menu-link {{ Route::is('home-settings.hero') ? 'active' : '' }}" href="{{ route('home-settings.hero') }}">
                                     <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                    <span class="menu-title">Hero Styling</span>
+                                    <span class="menu-title">Hero</span>
                                 </a>
                             </div>
                             <div class="menu-item">
                                 <a class="menu-link {{ Route::is('home-settings.news') ? 'active' : '' }}" href="{{ route('home-settings.news') }}">
                                     <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                    <span class="menu-title">Berita Terbaru</span>
+                                    <span class="menu-title">Berita</span>
                                 </a>
                             </div>
                             <div class="menu-item">
                                 <a class="menu-link {{ Route::is('home-settings.category') ? 'active' : '' }}" href="{{ route('home-settings.category') }}">
                                     <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                    <span class="menu-title">Category Sections</span>
+                                    <span class="menu-title">Kategori</span>
                                 </a>
                             </div>
                             <div class="menu-item">
@@ -229,12 +227,6 @@
                                 </a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link {{ Route::is('home-settings.general') ? 'active' : '' }}" href="{{ route('home-settings.general') }}">
-                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                    <span class="menu-title">General</span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
                                 <a class="menu-link {{ Route::is('home-settings.info-card') ? 'active' : '' }}" href="{{ route('home-settings.info-card') }}">
                                     <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
                                     <span class="menu-title">Info Card</span>
@@ -247,79 +239,75 @@
                                 </a>
                             </div>
                             <div class="menu-item">
+                                <a class="menu-link {{ Route::is('home-settings.general') ? 'active' : '' }}" href="{{ route('home-settings.general') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Umum</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
                                 <a class="menu-link {{ Route::is('home-settings.homepage-builder') ? 'active' : '' }}" href="{{ route('home-settings.homepage-builder') }}">
                                     <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                    <span class="menu-title">🏗️ Custom Sections</span>
+                                    <span class="menu-title">Custom Sections</span>
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Teachers Menu --}}
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::is('admin.teachers.*', 'admin.teacher-settings.*') ? 'show' : '' }}">
+                    <!-- Blog Settings -->
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::is('blog.settings.*') ? 'show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
-                                <i class="fas fa-user-tie fs-4"></i>
+                                <i class="fas fa-blog fs-4"></i>
                             </span>
-                            <span class="menu-title">Teachers</span>
+                            <span class="menu-title">Blog</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Route::is('admin.teachers.index') ? 'active' : '' }}" href="{{ route('admin.teachers.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">All Teachers</span>
+                                <a class="menu-link {{ Route::is('blog.settings.index') ? 'active' : '' }}" href="{{ route('blog.settings.index') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Halaman Index</span>
                                 </a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link {{ Route::is('admin.teacher-settings.index') ? 'active' : '' }}" href="{{ route('admin.teacher-settings.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Settings</span>
+                                <a class="menu-link {{ Route::is('blog.settings.detail') ? 'active' : '' }}" href="{{ route('blog.settings.detail') }}">
+                                    <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                    <span class="menu-title">Halaman Detail</span>
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    <!--begin:Menu heading - Website-->
+                    <!--======================================-->
+                    <!--          PENGATURAN SECTION          -->
+                    <!--======================================-->
                     <div class="menu-item pt-5">
                         <div class="menu-content">
-                            <span class="menu-heading fw-bold text-uppercase fs-7">WEBSITE</span>
+                            <span class="menu-heading fw-bold text-uppercase fs-7">Pengaturan</span>
                         </div>
                     </div>
-                    <!--end:Menu heading-->
 
-                    <!--begin:Menu item - Settings-->
-                    <div class="menu-item {{ Route::is('settings.*') ? 'show' : '' }}">
-                        <a class="menu-link {{ Route::is('settings.*') ? 'active' : '' }}" href="{{ route('settings.index') }}">
+                    <!-- Website Settings -->
+                    <div class="menu-item {{ Route::is('admin.settings.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
                             <span class="menu-icon">
                                 <i class="fas fa-cog fs-4"></i>
                             </span>
-                            <span class="menu-title">Settings</span>
+                            <span class="menu-title">Website</span>
                         </a>
                     </div>
 
-                    <!--begin:Menu heading - Users-->
-                    <div class="menu-item pt-5">
-                        <div class="menu-content">
-                            <span class="menu-heading fw-bold text-uppercase fs-7">USER MANAGEMENT</span>
-                        </div>
-                    </div>
-
-                    <!--begin:Menu item - Users-->
+                    <!-- Users -->
                     <div class="menu-item {{ Route::is('users.*') ? 'show' : '' }}">
                         <a class="menu-link {{ Route::is('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                             <span class="menu-icon">
                                 <i class="fas fa-users fs-4"></i>
                             </span>
-                            <span class="menu-title">Users</span>
+                            <span class="menu-title">Pengguna</span>
                         </a>
                     </div>
 
-                    <!--begin:Menu item - Roles-->
+                    <!-- Roles -->
                     <div class="menu-item {{ Route::is('roles.*') ? 'show' : '' }}">
                         <a class="menu-link {{ Route::is('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
                             <span class="menu-icon">
@@ -329,22 +317,17 @@
                         </a>
                     </div>
 
-                    <!--begin:Menu heading - Communications-->
-                    <div class="menu-item pt-5">
-                        <div class="menu-content">
-                            <span class="menu-heading fw-bold text-uppercase fs-7">COMMUNICATIONS</span>
-                        </div>
-                    </div>
-
-                    <!--begin:Menu item - Contacts-->
-                    <div class="menu-item {{ Route::is('contacts.*') ? 'show' : '' }}">
-                        <a class="menu-link {{ Route::is('contacts.*') ? 'active' : '' }}" href="{{ route('contacts.index') }}">
+                    <!-- Permissions (Admin Only) -->
+                    @if(auth()->user()->isAdmin())
+                    <div class="menu-item {{ Route::is('permissions.*') ? 'show' : '' }}">
+                        <a class="menu-link {{ Route::is('permissions.*') ? 'active' : '' }}" href="{{ route('permissions.index') }}">
                             <span class="menu-icon">
-                                <i class="fas fa-envelope fs-4"></i>
+                                <i class="fas fa-key fs-4"></i>
                             </span>
-                            <span class="menu-title">Contacts</span>
+                            <span class="menu-title">Permissions</span>
                         </a>
                     </div>
+                    @endif
 
                 </div>
                 <!--end::Menu-->
