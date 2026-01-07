@@ -63,7 +63,7 @@
                         <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.6;">{{ $item['description'] }}</p>
                     @endif
                     @if($item['link'])
-                        <a href="{{ $item['link'] }}" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; color: {{ $color['bg'] }}; font-weight: 600; text-decoration: none; font-size: 14px;">
+                        <a href="{{ safe_url($item['link']) }}" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; color: {{ $color['bg'] }}; font-weight: 600; text-decoration: none; font-size: 14px;">
                             Selengkapnya <i class="fas fa-arrow-right" style="font-size: 11px;"></i>
                         </a>
                     @endif
@@ -83,7 +83,7 @@
                             <p style="font-size: 14px; color: #6b7280; margin: 0; line-height: 1.6;">{{ $item['description'] }}</p>
                         @endif
                         @if($item['link'])
-                            <a href="{{ $item['link'] }}" style="display: inline-block; margin-top: 12px; color: {{ $color['bg'] }}; font-weight: 600; text-decoration: none; font-size: 14px;">
+                            <a href="{{ safe_url($item['link']) }}" style="display: inline-block; margin-top: 12px; color: {{ $color['bg'] }}; font-weight: 600; text-decoration: none; font-size: 14px;">
                                 Selengkapnya <i class="fas fa-arrow-right" style="margin-left: 4px; font-size: 11px;"></i>
                             </a>
                         @endif
@@ -103,7 +103,7 @@
                         <p style="font-size: 14px; color: #6b7280; margin: 0; line-height: 1.6;">{{ $item['description'] }}</p>
                     @endif
                     @if($item['link'])
-                        <a href="{{ $item['link'] }}" style="display: inline-block; margin-top: 14px; color: {{ $color['bg'] }}; font-weight: 600; text-decoration: none; font-size: 14px;">
+                        <a href="{{ safe_url($item['link']) }}" style="display: inline-block; margin-top: 14px; color: {{ $color['bg'] }}; font-weight: 600; text-decoration: none; font-size: 14px;">
                             Selengkapnya <i class="fas fa-arrow-right" style="margin-left: 4px; font-size: 11px;"></i>
                         </a>
                     @endif

@@ -228,7 +228,7 @@ function openMediaPicker() {
 }
 
 function loadMedia() {
-    fetch('/media/picker')
+    fetch(baseUrl + '/media/picker')
         .then(r => r.json())
         .then(response => {
             const grid = document.getElementById('media-grid');

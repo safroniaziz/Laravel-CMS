@@ -23,7 +23,7 @@
                 </p>
             </div>
             
-            <a href="/" style="display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: transform 0.3s;">
+            <a href="{{ url('/') }}" style="display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: transform 0.3s;">
                 <i class="fas fa-home" style="margin-right: 8px;"></i>
                 Kembali ke Beranda
             </a>

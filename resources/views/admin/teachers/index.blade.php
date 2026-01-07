@@ -186,7 +186,7 @@ $(document).ready(function() {
         const isActive = $(this).is(':checked');
         
         $.ajax({
-            url: `/admin/teachers/${id}/toggle`,
+            url: baseUrl + `/admin/teachers/${id}/toggle`,
             method: 'PATCH',
             data: {
                 _token: '{{ csrf_token() }}'
@@ -216,7 +216,7 @@ $(document).ready(function() {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `/admin/teachers/${id}`,
+                    url: baseUrl + `/admin/teachers/${id}`,
                     method: 'DELETE',
                     data: {
                         _token: '{{ csrf_token() }}'

@@ -11,9 +11,9 @@
     
     // Buttons
     $btn1Text = $data['btn1_text'] ?? '';
-    $btn1Link = $data['btn1_link'] ?? '#';
+    $btn1Link = safe_url($data['btn1_link'] ?? '#');
     $btn2Text = $data['btn2_text'] ?? '';
-    $btn2Link = $data['btn2_link'] ?? '#';
+    $btn2Link = safe_url($data['btn2_link'] ?? '#');
     
     // Colors
     $bgColor = $data['bg_color'] ?? ($page->accent_color ?? '#1e3a8a');

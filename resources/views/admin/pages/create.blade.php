@@ -1484,7 +1484,7 @@ function openMediaPicker(target) {
 }
 
 function loadMediaItems(search = '') {
-    $.get('/media/picker', { search: search }, function(response) {
+    $.get(baseUrl + '/media/picker', { search: search }, function(response) {
         if (response.success && response.media.data.length > 0) {
             const isGallery = currentMediaTarget === 'gallery';
             let html = '<div class="row g-3">';

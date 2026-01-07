@@ -148,7 +148,7 @@ function deletePermission(id) {
         cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/permissions/${id}`, {
+            fetch(baseUrl + `/permissions/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

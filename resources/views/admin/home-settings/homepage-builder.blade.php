@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <div>
-                        <a href="/" target="_blank" class="btn btn-light-primary me-2">
+                        <a href="{{ url('/') }}" target="_blank" class="btn btn-light-primary me-2">
                             <i class="fas fa-eye me-1"></i> Preview Homepage
                         </a>
                         <button type="button" class="btn btn-primary" onclick="saveHomepageBuilder()">
@@ -539,7 +539,7 @@ function openMediaPicker(target) {
 }
 
 function loadMediaItems(search = '') {
-    $.get('/media/picker', { search: search }, function(response) {
+    $.get(baseUrl + '/media/picker', { search: search }, function(response) {
         if (response.success && response.media.data.length > 0) {
             let html = '<div class="row g-3">';
             response.media.data.forEach(item => {

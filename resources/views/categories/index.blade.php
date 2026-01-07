@@ -157,7 +157,7 @@ document.getElementById('categoryForm').addEventListener('submit', function(e) {
     
     const submitBtn = document.getElementById('submitBtn');
     const categoryId = document.getElementById('category_id').value;
-    const url = isEditMode ? `/categories/${categoryId}` : '/categories';
+    const url = isEditMode ? baseUrl + `/categories/${categoryId}` : baseUrl + '/categories';
     const method = isEditMode ? 'PUT' : 'POST';
     
     const formData = {
@@ -232,7 +232,7 @@ function deleteCategory(id, postsCount) {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/categories/${id}`, {
+            fetch(baseUrl + `/categories/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

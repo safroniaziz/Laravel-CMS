@@ -147,7 +147,7 @@ document.getElementById('tagForm').addEventListener('submit', function(e) {
     
     const submitBtn = document.getElementById('submitBtn');
     const tagId = document.getElementById('tag_id').value;
-    const url = isEditMode ? `/tags/${tagId}` : '/tags';
+    const url = isEditMode ? baseUrl + `/tags/${tagId}` : baseUrl + '/tags';
     const method = isEditMode ? 'PUT' : 'POST';
     
     const formData = {
@@ -221,7 +221,7 @@ function deleteTag(id, postsCount) {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/tags/${id}`, {
+            fetch(baseUrl + `/tags/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

@@ -76,16 +76,16 @@
                         @foreach($row as $ci => $cell)
                         <td style="padding: 12px 16px; font-size: 14px; color: {{ $ci === 0 ? '#1f2937' : '#6b7280' }}; font-weight: {{ $ci === 0 ? '500' : '400' }};">
                             @if(preg_match('/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)$/i', $cell))
-                                <a href="{{ $cell }}" target="_blank" download style="display: inline-flex; align-items: center; gap: 6px; color: {{ $accentColor }}; text-decoration: none; font-weight: 500;">
+                                <a href="{{ safe_url($cell) }}" target="_blank" download style="display: inline-flex; align-items: center; gap: 6px; color: {{ $accentColor }}; text-decoration: none; font-weight: 500;">
                                     <i class="fas fa-download" style="font-size: 12px;"></i>
                                     Download
                                 </a>
                             @elseif(preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $cell))
-                                <a href="{{ $cell }}" target="_blank">
+                                <a href="{{ safe_url($cell) }}" target="_blank">
                                     <img src="{{ $cell }}" style="max-width: 60px; max-height: 40px; border-radius: 4px; object-fit: cover;">
                                 </a>
                             @elseif(filter_var($cell, FILTER_VALIDATE_URL))
-                                <a href="{{ $cell }}" target="_blank" style="color: {{ $accentColor }}; text-decoration: none;">
+                                <a href="{{ safe_url($cell) }}" target="_blank" style="color: {{ $accentColor }}; text-decoration: none;">
                                     <i class="fas fa-external-link-alt" style="font-size: 11px; margin-right: 4px;"></i>Link
                                 </a>
                             @else

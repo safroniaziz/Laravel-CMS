@@ -84,7 +84,8 @@
     @endphp
     <section style="min-height: {{ $heroHeight }}; display: flex; align-items: center; position: relative; overflow: hidden;">
         @if($heroBgType === 'image' && !empty($hero['bg_image']))
-            <div style="position: absolute; inset: 0; background-image: url('{{ asset('storage/' . $hero['bg_image']) }}'); background-size: cover; background-position: center;"></div>
+            <div style="position: absolute; inset: 0; background-image: url('{{ asset(=['
+            ]'storage/' . $hero['bg_image']) }}'); background-size: cover; background-position: center;"></div>
             <div style="position: absolute; inset: 0; background: linear-gradient(135deg, {{ $accentColor }}ee 0%, {{ $accentColor }}99 100%);"></div>
         @elseif($heroBgType === 'gradient')
             <div style="position: absolute; inset: 0; background: {{ $gradients[$hero['gradient'] ?? 'blue'] }};"></div>
@@ -106,12 +107,12 @@
                 @endif
                 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                     @if(!empty($hero['cta1_text']) && !empty($hero['cta1_link']))
-                        <a href="{{ $hero['cta1_link'] }}" style="background: #fff; color: {{ $accentColor }}; padding: 20px 45px; text-decoration: none; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 2px;">
+                        <a href="{{ safe_url($hero['cta1_link']) }}" style="background: #fff; color: {{ $accentColor }}; padding: 20px 45px; text-decoration: none; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 2px;">
                             {{ $hero['cta1_text'] }} →
                         </a>
                     @endif
                     @if(!empty($hero['cta2_text']) && !empty($hero['cta2_link']))
-                        <a href="{{ $hero['cta2_link'] }}" style="background: transparent; color: #fff; padding: 20px 45px; border: 3px solid #fff; text-decoration: none; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 2px;">
+                        <a href="{{ safe_url($hero['cta2_link']) }}" style="background: transparent; color: #fff; padding: 20px 45px; border: 3px solid #fff; text-decoration: none; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 2px;">
                             {{ $hero['cta2_text'] }}
                         </a>
                     @endif
@@ -143,7 +144,7 @@
                         </div>
                     @endif
                     @if(!empty($about['btn_text']) && !empty($about['btn_link']))
-                        <a href="{{ $about['btn_link'] }}" class="btn-bold">
+                        <a href="{{ safe_url($about['btn_link']) }}" class="btn-bold">
                             {{ $about['btn_text'] }} →
                         </a>
                     @endif
@@ -417,12 +418,12 @@
                 @endif
                 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                     @if(!empty($cta['btn1_text']) && !empty($cta['btn1_link']))
-                        <a href="{{ $cta['btn1_link'] }}" style="background: #fff; color: {{ $accentColor }}; padding: 20px 50px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 16px;">
+                        <a href="{{ safe_url($cta['btn1_link']) }}" style="background: #fff; color: {{ $accentColor }}; padding: 20px 50px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 16px;">
                             {{ $cta['btn1_text'] }} →
                         </a>
                     @endif
                     @if(!empty($cta['btn2_text']) && !empty($cta['btn2_link']))
-                        <a href="{{ $cta['btn2_link'] }}" style="background: transparent; color: #fff; padding: 20px 50px; border: 3px solid #fff; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 16px;">
+                        <a href="{{ safe_url($cta['btn2_link']) }}" style="background: transparent; color: #fff; padding: 20px 50px; border: 3px solid #fff; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 16px;">
                             {{ $cta['btn2_text'] }}
                         </a>
                     @endif

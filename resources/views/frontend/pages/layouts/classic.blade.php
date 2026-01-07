@@ -126,12 +126,12 @@
             @endif
             <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
                 @if(!empty($hero['cta1_text']) && !empty($hero['cta1_link']))
-                    <a href="{{ $hero['cta1_link'] }}" style="background: #fff; color: {{ $accentColor }}; padding: 16px 40px; text-decoration: none; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 14px;">
+                    <a href="{{ safe_url($hero['cta1_link']) }}" style="background: #fff; color: {{ $accentColor }}; padding: 16px 40px; text-decoration: none; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 14px;">
                         {{ $hero['cta1_text'] }}
                     </a>
                 @endif
                 @if(!empty($hero['cta2_text']) && !empty($hero['cta2_link']))
-                    <a href="{{ $hero['cta2_link'] }}" style="background: transparent; color: #fff; padding: 16px 40px; border: 2px solid #fff; text-decoration: none; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 14px;">
+                    <a href="{{ safe_url($hero['cta2_link']) }}" style="background: transparent; color: #fff; padding: 16px 40px; border: 2px solid #fff; text-decoration: none; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 14px;">
                         {{ $hero['cta2_text'] }}
                     </a>
                 @endif
@@ -159,7 +159,7 @@
                         </div>
                     @endif
                     @if(!empty($about['btn_text']) && !empty($about['btn_link']))
-                        <a href="{{ $about['btn_link'] }}" class="btn-classic">
+                        <a href="{{ safe_url($about['btn_link']) }}" class="btn-classic">
                             {{ $about['btn_text'] }}
                         </a>
                     @endif
@@ -431,12 +431,12 @@
             @endif
             <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
                 @if(!empty($cta['btn1_text']) && !empty($cta['btn1_link']))
-                    <a href="{{ $cta['btn1_link'] }}" style="background: #fff; color: {{ $accentColor }}; padding: 16px 45px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 14px;">
+                    <a href="{{ safe_url($cta['btn1_link']) }}" style="background: #fff; color: {{ $accentColor }}; padding: 16px 45px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 14px;">
                         {{ $cta['btn1_text'] }}
                     </a>
                 @endif
                 @if(!empty($cta['btn2_text']) && !empty($cta['btn2_link']))
-                    <a href="{{ $cta['btn2_link'] }}" style="background: transparent; color: #fff; padding: 16px 45px; border: 2px solid #fff; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 14px;">
+                    <a href="{{ safe_url($cta['btn2_link']) }}" style="background: transparent; color: #fff; padding: 16px 45px; border: 2px solid #fff; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 14px;">
                         {{ $cta['btn2_text'] }}
                     </a>
                 @endif

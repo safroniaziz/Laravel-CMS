@@ -35,7 +35,7 @@ class MenuHelper
         }
 
         $html = '<li class="' . trim($itemClass) . '">';
-        $html .= '<a href="' . $item->url . '" target="' . $item->target . '">';
+        $html .= '<a href="' . $item->full_url . '" target="' . $item->target . '">';
 
         if ($item->icon) {
             $html .= '<i class="' . $item->icon . '"></i> ';

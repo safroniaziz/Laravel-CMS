@@ -94,3 +94,26 @@ if (!function_exists('user_avatar')) {
     }
 }
 
+/**
+ * Generate a proper URL that respects APP_URL for subdirectory deployments.
+ * External links (http/https) and special protocols are returned as-is.
+ * Internal links are prepended with APP_URL.
+ */
+if (!function_exists('safe_url')) {
+    function safe_url($path)
+    {
+        if (empty($path)) {
+            return url('/');
+        }
+
+        // If external link or special protocols, return as-is
+        if (preg_match('/^(https?:\/\/|#|javascript:|mailto:|tel:)/i', $path)) {
+            return $path;
+        }
+
+        // For internal links, use url() helper which prepends APP_URL
+        return url(ltrim($path, '/'));
+    }
+}
+
+

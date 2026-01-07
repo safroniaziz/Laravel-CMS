@@ -101,7 +101,7 @@ function deleteRole(id) {
         cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/roles/${id}`, {
+            fetch(baseUrl + `/roles/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

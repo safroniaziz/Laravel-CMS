@@ -185,7 +185,7 @@
                 if (indikatorId) {
                     console.log("Mengambil kriteria untuk indikator ID:", indikatorId);
                     $.ajax({
-                        url: '/instrumen-prodi/indikator/' + indikatorId + '/kriteria',
+                        url: baseUrl + '/instrumen-prodi/indikator/' + indikatorId + '/kriteria',
                         type: 'GET',
                         success: function (response) {
                             let kriteriaSelect = $('select[name="indikator_instrumen_kriteria_id"]');

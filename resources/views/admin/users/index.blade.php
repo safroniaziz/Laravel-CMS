@@ -159,7 +159,7 @@ function deleteUser(id) {
         cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/users/${id}`, {
+            fetch(baseUrl + `/users/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

@@ -752,7 +752,7 @@
                             {{-- Dynamic Menu from Database --}}
                             @foreach($mainMenu->items as $item)
                                 <li @if($item->children->count() > 0) class="has-dropdown" @endif>
-                                    <a href="{{ $item->url }}"
+                                    <a href="{{ $item->full_url }}"
                                        class="{{ request()->is(trim($item->url, '/')) ? 'active' : '' }}"
                                        @if($item->target !== '_self') target="{{ $item->target }}" @endif>
                                         <div class="menu-text-wrapper">
@@ -775,7 +775,7 @@
                                                 @if($child->children->count() > 0)
                                                     {{-- Item with submenu - needs wrapper for hover --}}
                                                     <div class="dropdown-item-wrapper">
-                                                        <a href="{{ $child->url }}"
+                                                        <a href="{{ $child->full_url }}"
                                                            @if($child->target !== '_self') target="{{ $child->target }}" @endif
                                                            class="dropdown-item has-submenu">
                                                             @if($child->icon_class)
@@ -788,7 +788,7 @@
                                                         {{-- Nested dropdown (3rd level) --}}
                                                         <div class="nested-dropdown-menu">
                                                             @foreach($child->children as $grandchild)
-                                                                <a href="{{ $grandchild->url }}"
+                                                                <a href="{{ $grandchild->full_url }}"
                                                                    @if($grandchild->target !== '_self') target="{{ $grandchild->target }}" @endif
                                                                    class="dropdown-item">
                                                                     @if($grandchild->icon_class)
@@ -801,7 +801,7 @@
                                                     </div>
                                                 @else
                                                     {{-- Regular item without submenu --}}
-                                                    <a href="{{ $child->url }}"
+                                                    <a href="{{ $child->full_url }}"
                                                        @if($child->target !== '_self') target="{{ $child->target }}" @endif
                                                        class="dropdown-item">
                                                         @if($child->icon_class)
@@ -1007,7 +1007,7 @@
                         });
                     </script>
                 @else
-                    <a href="/login" class="login-btn">
+                    <a href="{{ route('login') }}" class="login-btn">
                         <i class="fas fa-sign-in-alt"></i>
                         <span>Login</span>
                     </a>

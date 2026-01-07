@@ -38,5 +38,20 @@ class MenuItem extends Model
     {
         return $this->hasMany(MenuItem::class, 'parent_id')->orderBy('order');
     }
+
+    public function getFullUrlAttribute(): string
+    {
+        $url = $this->url ?? '';
+
+        if (empty($url)) {
+            return url('/');
+        }
+
+        if (preg_match('/^(https?:\/\/|#|javascript:|mailto:|tel:)/i', $url)) {
+            return $url;
+        }
+
+        return url(ltrim($url, '/'));
+    }
 }
 

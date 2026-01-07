@@ -181,7 +181,7 @@ document.getElementById('menuForm').addEventListener('submit', function(e) {
     
     const submitBtn = document.getElementById('submitBtn');
     const menuId = document.getElementById('menu_id').value;
-    const url = isEditMode ? `/menus/${menuId}` : '/menus';
+    const url = isEditMode ? baseUrl + `/menus/${menuId}` : baseUrl + '/menus';
     const method = isEditMode ? 'PUT' : 'POST';
     
     const formData = {
@@ -255,7 +255,7 @@ function deleteMenu(id, itemsCount) {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/menus/${id}`, {
+            fetch(baseUrl + `/menus/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

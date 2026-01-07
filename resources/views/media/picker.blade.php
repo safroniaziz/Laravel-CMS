@@ -29,7 +29,7 @@ document.getElementById('mediaPickerModal')?.addEventListener('shown.bs.modal', 
 function loadMediaForPicker() {
     const grid = document.getElementById('media-picker-grid');
     
-    fetch('/media')
+    fetch('{{ route("media.index") }}')
         .then(response => response.text())
         .then(html => {
             // Parse the response to extract media items
@@ -42,7 +42,7 @@ function loadMediaForPicker() {
                     <div class="col-12 text-center py-10">
                         <i class="fas fa-images fs-3x text-gray-400 mb-3"></i>
                         <p class="text-gray-600">No images found in Media Library.</p>
-                        <a href="/media" class="btn btn-sm btn-primary" target="_blank">
+                        <a href="{{ route('media.index') }}" class="btn btn-sm btn-primary" target="_blank">
                             <i class="fas fa-upload me-2"></i>Upload Images
                         </a>
                     </div>

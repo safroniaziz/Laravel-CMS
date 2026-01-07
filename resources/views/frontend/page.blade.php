@@ -415,8 +415,8 @@
                         <div style="background: #f8fafc; border-radius: 12px; padding: 25px;">
                             <h3 style="color: {{ $accentColor }}; font-size: 18px; font-weight: 700; margin: 0 0 15px;">📌 Menu</h3>
                             <ul style="list-style: none; padding: 0; margin: 0;">
-                                <li style="margin-bottom: 10px;"><a href="/" style="color: {{ $textColor }}; text-decoration: none;">🏠 Beranda</a></li>
-                                <li><a href="/posts" style="color: {{ $textColor }}; text-decoration: none;">📰 Berita</a></li>
+                                <li style="margin-bottom: 10px;"><a href="{{ url('/') }}" style="color: {{ $textColor }}; text-decoration: none;">🏠 Beranda</a></li>
+                                <li><a href="{{ url('posts') }}" style="color: {{ $textColor }}; text-decoration: none;">📰 Berita</a></li>
                             </ul>
                         </div>
                     </aside>

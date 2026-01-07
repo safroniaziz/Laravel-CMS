@@ -350,7 +350,7 @@ document.getElementById('menuForm').addEventListener('submit', function(e) {
         location: document.getElementById('menu_location').value
     };
     
-    fetch(`/menus/{{ $menu->id }}`, {
+    fetch(baseUrl + `/menus/{{ $menu->id }}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -384,7 +384,7 @@ document.getElementById('addItemForm').addEventListener('submit', function(e) {
         target: document.getElementById('item_target').value
     };
     
-    fetch(`/menus/{{ $menu->id }}/items`, {
+    fetch(baseUrl + `/menus/{{ $menu->id }}/items`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -433,7 +433,7 @@ document.getElementById('editItemForm').addEventListener('submit', function(e) {
         target: document.getElementById('edit_item_target').value
     };
     
-    fetch(`/menu-items/${itemId}`, {
+    fetch(baseUrl + `/menu-items/${itemId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -469,7 +469,7 @@ function deleteItem(id) {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/menu-items/${id}`, {
+            fetch(baseUrl + `/menu-items/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function saveMenuOrder(items) {
-    fetch(`/menus/{{ $menu->id }}/order`, {
+    fetch(baseUrl + `/menus/{{ $menu->id }}/order`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

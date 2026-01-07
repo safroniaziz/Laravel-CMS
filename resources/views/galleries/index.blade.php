@@ -397,7 +397,7 @@ document.getElementById('galleryForm').addEventListener('submit', function(e) {
     
     const submitBtn = document.getElementById('submitBtn');
     const galleryId = document.getElementById('gallery_id').value;
-    const url = isEditMode ? `/galleries/${galleryId}` : '/galleries';
+    const url = isEditMode ? baseUrl + `/galleries/${galleryId}` : baseUrl + '/galleries';
     const method = isEditMode ? 'PUT' : 'POST';
     
     const type = document.getElementById('type').value;
@@ -496,7 +496,7 @@ document.getElementById('galleryForm').addEventListener('submit', function(e) {
 });
 
 function toggleActive(id, newStatus) {
-    fetch(`/galleries/${id}/toggle-active`, {
+    fetch(baseUrl + `/galleries/${id}/toggle-active`, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -523,7 +523,7 @@ function deleteGalleryItem(id) {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/galleries/${id}`, {
+            fetch(baseUrl + `/galleries/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -570,7 +570,7 @@ function clearSearch() {
 
 function loadGalleries(page = 1) {
     currentPage = page;
-    const url = new URL(window.location.origin + '/galleries');
+    const url = new URL(window.location.origin + baseUrl.replace(window.location.origin, '') + '/galleries');
     if (currentSearch) url.searchParams.append('search', currentSearch);
     url.searchParams.append('page', currentPage);
     
@@ -642,7 +642,7 @@ function bulkDelete() {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch('/galleries/bulk-destroy', {
+            fetch(baseUrl + '/galleries/bulk-destroy', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

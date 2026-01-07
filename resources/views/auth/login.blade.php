@@ -315,7 +315,7 @@
             </form>
 
             <div class="login-footer">
-                <a href="/" class="back-link">
+                <a href="{{ url('/') }}" class="back-link">
                     <i class="fas fa-arrow-left"></i>
                     Back to website
                 </a>

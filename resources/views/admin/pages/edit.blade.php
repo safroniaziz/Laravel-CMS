@@ -152,7 +152,7 @@
                         <div class="card-header">
                             <h3 class="card-title">📝 Informasi Halaman</h3>
                             <div class="card-toolbar">
-                                <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-light-primary">
+                                <a href="{{ url($page->slug) }}" target="_blank" class="btn btn-sm btn-light-primary">
                                     <i class="fas fa-eye me-1"></i> Preview
                                 </a>
                             </div>
@@ -2268,7 +2268,7 @@ function openMediaPicker(target) {
 }
 
 function loadMediaItems(search = '') {
-    $.get('/media/picker', { search: search }, function(response) {
+    $.get(baseUrl + '/media/picker', { search: search }, function(response) {
         if (response.success && response.media.data.length > 0) {
             const isGallery = currentMediaTarget === 'gallery';
             let html = '<div class="row g-3">';

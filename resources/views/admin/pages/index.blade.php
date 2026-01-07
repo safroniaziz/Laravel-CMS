@@ -81,7 +81,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="/{{ $page->slug }}" target="_blank" class="text-primary text-hover-dark">
+                                    <a href="{{ url($page->slug) }}" target="_blank" class="text-primary text-hover-dark">
                                         /{{ $page->slug }}
                                     </a>
                                 </td>
@@ -112,7 +112,7 @@
                                     </a>
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4" data-kt-menu="true">
                                         <div class="menu-item px-3">
-                                            <a href="/{{ $page->slug }}" target="_blank" class="menu-link px-3">
+                                            <a href="{{ url($page->slug) }}" target="_blank" class="menu-link px-3">
                                                 <i class="fas fa-eye me-2"></i> View
                                             </a>
                                         </div>
@@ -197,7 +197,7 @@ $(document).ready(function() {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `/pages/${id}`,
+                    url: baseUrl + `/pages/${id}`,
                     method: 'DELETE',
                     data: {
                         _token: '{{ csrf_token() }}'
