@@ -174,6 +174,8 @@
         ];
     }
 
+    $academicSectionShow = (App\Models\Setting::where('key', 'academic_section_show')->value('value') ?? '1') == '1';
+
     // Fetch posts from 'akademik' category
     try {
         $academicPosts = App\Models\Post::where('status', 'published')
@@ -246,6 +248,7 @@
     ];
 @endphp
 
+@if($academicSectionShow)
 <!-- Informasi Akademik Section - Enhanced with Featured Layout -->
 <section style="padding: 90px 0; background: linear-gradient(to bottom, {{ $academicColors['bg_start'] }} 0%, {{ $academicColors['bg_end'] }} 100%); position: relative;">
     <!-- Subtle Background Pattern -->
@@ -648,6 +651,7 @@
         @endif
     </div>
 </section>
+@endif
 
 @php
     // Check if Dosen section should be shown (Home Settings > General)
@@ -1085,6 +1089,8 @@
     use App\Models\KenaliStat;
     use App\Models\KenaliSetting;
 
+    $kenaliSectionShow = KenaliSetting::getValue('show', '1') == '1';
+
     // Fetch layout style
     $kenaliLayoutStyle = KenaliSetting::getValue('layout_style', 'current');
 
@@ -1157,6 +1163,7 @@
     $kenaliDecorationColor2 = KenaliSetting::getValue('decoration_color_2', 'rgba(249, 115, 22, 0.1)');
 @endphp
 
+@if($kenaliSectionShow)
 <!-- Kenali Sistem Informasi Section - Dynamic Layout -->
 <section style="padding: 80px 0; background: linear-gradient(135deg, {{ $kenaliBgGradient['start'] }} 0%, {{ $kenaliBgGradient['end'] }} 100%); color: #fff; position: relative; overflow: hidden;">
     <!-- Background Decorations -->
@@ -1471,10 +1478,13 @@
         @endif
     </div>
 </section>
+@endif
 
 @php
     use App\Models\AlumniTestimonial;
     use App\Models\AlumniSetting;
+
+    $alumniSectionShow = AlumniSetting::getValue('show', '1') == '1';
 
     // Fetch layout style
     $alumniLayoutStyle = AlumniSetting::getValue('layout_style', 'current');
@@ -1520,6 +1530,7 @@
     ];
 @endphp
 
+@if($alumniSectionShow)
 <!-- Ikatan Alumni Section - Dynamic Layout -->
 <section style="padding: 80px 0; background: linear-gradient(135deg, {{ $alumniBgGradient['start'] }} 0%, {{ $alumniBgGradient['end'] }} 100%); position: relative; overflow: hidden;">
     <!-- Background Decorations -->
@@ -1856,6 +1867,7 @@
         @endif
     </div>
 </section>
+@endif
 
 {{-- Custom Sections from Homepage Builder - After Alumni Position --}}
 @include('frontend.partials.home.home-blocks', ['position' => 'after_alumni'])

@@ -52,8 +52,11 @@
             'accent_color' => '#f97316',
         ];
     }
+
+    $newsSectionShow = (App\Models\Setting::where('key', 'news_section_show')->value('value') ?? '1') == '1';
 @endphp
 
+@if($newsSectionShow)
 {{-- Berita Terbaru Section - UGM Style --}}
 <section style="padding: 80px 0; background: #fff; position: relative;">
     <div class="container">
@@ -444,3 +447,4 @@
         @endif
     </div>
 </section>
+@endif

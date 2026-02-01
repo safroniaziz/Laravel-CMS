@@ -82,8 +82,11 @@
         ['title' => $category2['title'], 'posts' => $prestasiPosts, 'slug' => $category2['slug']],
         ['title' => $category3['title'], 'posts' => $penelitianPosts, 'slug' => $category3['slug']],
     ];
+
+    $categorySectionShow = (App\Models\Setting::where('key', 'category_section_show')->value('value') ?? '1') == '1';
 @endphp
 
+@if($categorySectionShow)
 {{-- Category Sections - Dynamic Layout --}}
 <section style="padding: 60px 0 80px 0; background: #fff; border-top: 1px solid #f1f5f9;">
     <div class="container">
@@ -346,6 +349,7 @@
         @endif
     </div>
 </section>
+@endif
 
 <script>
 // Tab functionality for category sections

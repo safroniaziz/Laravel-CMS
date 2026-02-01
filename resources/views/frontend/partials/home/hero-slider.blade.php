@@ -54,8 +54,11 @@
         ];
         $heroSecondaryButton = ['text' => 'Pelajari Lebih Lanjut', 'link' => '/page/about', 'show' => '1'];
     }
+
+    $heroShow = (App\Models\Setting::where('key', 'hero_show')->value('value') ?? '1') == '1';
 @endphp
 
+@if($heroShow)
 {{-- Hero Slider Section --}}
 <section style="position: relative; overflow: hidden; margin: 0; padding: 0;">
     @if($sliders->count() > 0)
@@ -331,3 +334,4 @@
         </div>
     @endif
 </section>
+@endif
