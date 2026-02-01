@@ -42,10 +42,14 @@
 							</div>
 						</div>
 						<!--end::Sidebar mobile toggle-->
-						<!--begin::Mobile logo-->
+						<!--begin::Mobile logo (dari Pengaturan Admin > Logo Website)-->
 						<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
 							<a href="{{ route('dashboard') }}" class="d-lg-none">
-								<img alt="Logo" src="{{ asset('assets/src/images/pppep.png') }}" class="h-30px" />
+								@if(!empty($siteSettings['logo']))
+									<img alt="{{ $siteSettings['name'] ?? 'Logo' }}" src="{{ asset($siteSettings['logo']) }}" class="h-30px" />
+								@else
+									<img alt="Logo" src="{{ asset('assets/src/images/pppep.png') }}" class="h-30px" />
+								@endif
 							</a>
 						</div>
 						<!--end::Mobile logo-->

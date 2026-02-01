@@ -650,6 +650,9 @@
 </section>
 
 @php
+    // Check if Dosen section should be shown (Home Settings > General)
+    $dosenSectionShow = (App\Models\Setting::where('key', 'dosen_section_show')->value('value') ?? '1') == '1';
+
     // Fetch dosen layout style from settings
     try {
         $dosenLayoutStyle = App\Models\Setting::where('key', 'dosen_layout_style')->value('value') ?? 'slider';
@@ -700,6 +703,7 @@
     }
 @endphp
 
+@if($dosenSectionShow)
 <!-- Dosen Sistem Informasi Section - Dynamic Layout -->
 <section style="padding: 100px 0; background: linear-gradient(to bottom, #f0f4ff 0%, #fafbff 100%); position: relative; overflow: hidden;">
     <!-- Subtle Background Patterns -->
@@ -1074,6 +1078,7 @@
         @endif
     </div>
 </section>
+@endif
 
 @php
     use App\Models\KenaliInfo;
@@ -2641,9 +2646,11 @@
         // Check if footer should be shown
         $footerShow = App\Models\Setting::where('key', 'footer_show')->value('value') ?? '0';
         
+        $footerSiteName = App\Models\Setting::where('key', 'site_name')->value('value') ?: config('app.name', 'Website');
         $footerSettings = [
             'logo_text' => App\Models\Setting::where('key', 'footer_logo_text')->value('value') ?? 'SISTEM INFORMASI',
             'logo_subtext' => App\Models\Setting::where('key', 'footer_logo_subtext')->value('value') ?? 'UNIVERSITAS BENGKULU',
+            'site_name' => $footerSiteName,
             'description' => App\Models\Setting::where('key', 'footer_description')->value('value') ?? 'Leading the future of digital innovation and information systems education in Indonesia.',
             'address' => App\Models\Setting::where('key', 'footer_address')->value('value') ?? 'Jl. W.R. Supratman Kandang Limun Bengkulu 38371',
             'phone' => App\Models\Setting::where('key', 'footer_phone')->value('value') ?? '(0737) 21118',
@@ -2695,9 +2702,11 @@
     } catch (\Exception $e) {
         // Fallback values
         $footerShow = '0';
+        $footerSiteName = config('app.name', 'Website');
         $footerSettings = [
             'logo_text' => 'SISTEM INFORMASI',
             'logo_subtext' => 'UNIVERSITAS BENGKULU',
+            'site_name' => $footerSiteName,
             'description' => 'Leading the future of digital innovation and information systems education in Indonesia.',
             'address' => 'Jl. W.R. Supratman Kandang Limun Bengkulu 38371',
             'phone' => '(0737) 21118',
@@ -2885,10 +2894,10 @@
 
         </div>
 
-        <!-- Copyright Section -->
+        <!-- Copyright Section (nama aplikasi dari Pengaturan Admin) -->
         <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
             <p style="font-size: 14px; color: {{ $footerColors['text_color'] }}; margin: 0;">
-                © {{ date('Y') }} {{ $footerSettings['logo_text'] }} {{ $footerSettings['logo_subtext'] }}. {{ $footerSettings['copyright_text'] }}.
+                © {{ date('Y') }} {{ $footerSettings['site_name'] ?? $footerSettings['logo_text'] }}. {{ $footerSettings['copyright_text'] }}.
             </p>
         </div>
     </div>

@@ -86,9 +86,13 @@
 										</i>
 									</button>
 									<!--end::Header secondary toggle-->
-									<!--begin::Logo-->
+									<!--begin::Logo (dari Pengaturan Admin > Logo Website)-->
 									<a href="{{ route('auditor.dashboard') }}" class="d-flex align-items-center logo-background">
-										<img alt="Logo" src="{{ asset('assets/src/images/pppep.png') }}" class="h-30px h-lg-55px" />
+										@if(!empty($siteSettings['logo']))
+											<img alt="{{ $siteSettings['name'] ?? 'Logo' }}" src="{{ asset($siteSettings['logo']) }}" class="h-30px h-lg-55px" />
+										@else
+											<img alt="Logo" src="{{ asset('assets/src/images/pppep.png') }}" class="h-30px h-lg-55px" />
+										@endif
 									</a>
 									<!--end::Logo-->
 								</div>
